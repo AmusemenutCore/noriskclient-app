@@ -2,10 +2,10 @@
 
 ## Getting Started
 
-1. Install flutter
-2. run flutter pub get
-3. run flutter gen-l10n to generate translations
-4. run flutter run to start the app!
+1. Install the flutter SDK [[Download]](https://docs.flutter.dev/get-started/quick)
+2. run `flutter pub get` to download dependencies
+3. run `flutter gen-l10n` to generate translations
+4. run `flutter run` to start the app in debug mode!
 
 ### Note from developer / code-owner ([@TimLohrer](https://github.com/TimLohrer))
 
