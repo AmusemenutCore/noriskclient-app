@@ -159,6 +159,12 @@ class ProfileState extends State<Profile> {
                                       fontWeight: FontWeight.bold)),
                               if (cache['profiles']?[widget.uuid] != null &&
                                   cache['profiles']![widget.uuid]['nrcUser']
+                                          ['noRiskPlusExpirationDate'] !=
+                                      null &&
+                                  cache['profiles']![widget.uuid]['nrcUser']
+                                          ['noRiskPlusExpirationDate'] >
+                                      0 &&
+                                  cache['profiles']![widget.uuid]['nrcUser']
                                       ['additionalNameTag']['isEnabled'])
                                 NoRiskText(
                                     (cache['profiles']![widget.uuid]['nrcUser']
