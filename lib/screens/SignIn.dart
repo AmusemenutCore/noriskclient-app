@@ -39,139 +39,142 @@ class SignInState extends State<SignIn> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: NoRiskClientColors.background,
-        body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: isProcessingResult
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.125),
+        body: SafeArea(
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: isProcessingResult
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.125),
+                    GestureDetector(
+                        onLongPress: showDeveloperSignInPopup,
+                        child: Image.asset('lib/assets/app/norisk_logo.png',
+                            height: 150)),
+                    NoRiskText('NoRisk Client'.toLowerCase(),
+                        style: TextStyle(
+                            color: NoRiskClientColors.text,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.15,
+                            letterSpacing: -1)),
+                  ],
+                ),
+                Column(children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  NoRiskText(
+                    AppLocalizations.of(context)!
+                        .signIn_explanation
+                        .toLowerCase(),
+                    spaceTop: false,
+                    spaceBottom: false,
+                    style: const TextStyle(
+                        height: 0.85,
+                        fontSize: 17.5,
+                        color: NoRiskClientColors.textLight),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  NoRiskText(
+                    AppLocalizations.of(context)!.signIn_eula.toLowerCase(),
+                    spaceTop: false,
+                    spaceBottom: false,
+                    style: const TextStyle(
+                        fontSize: 15, color: NoRiskClientColors.textLight),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
                   GestureDetector(
-                      onLongPress: showDeveloperSignInPopup,
-                      child: Image.asset('lib/assets/app/norisk_logo.png',
-                          height: 150)),
-                  NoRiskText('NoRisk Client'.toLowerCase(),
-                      style: TextStyle(
-                          color: NoRiskClientColors.text,
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.width * 0.15,
-                          letterSpacing: -1)),
-                ],
-              ),
-              Column(children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                NoRiskText(
-                  AppLocalizations.of(context)!
-                      .signIn_explanation
-                      .toLowerCase(),
-                  spaceTop: false,
-                  spaceBottom: false,
-                  style: const TextStyle(
-                      height: 0.85,
-                      fontSize: 17.5,
-                      color: NoRiskClientColors.textLight),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                NoRiskText(
-                  AppLocalizations.of(context)!.signIn_eula.toLowerCase(),
-                  spaceTop: false,
-                  spaceBottom: false,
-                  style: const TextStyle(
-                      fontSize: 15, color: NoRiskClientColors.textLight),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: scanQrCode,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 10),
-                    child: NoRiskContainer(
-                      height: 65,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: isProcessingResult
-                              ? NoRiskClientColors.blue.withOpacity(0.5)
-                              : NoRiskClientColors.blue,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: isProcessingResult
-                              ? [
-                                  NoRiskText(
+                    onTap: scanQrCode,
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.only(bottom: 10),
+                      child: NoRiskContainer(
+                        height: 65,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: isProcessingResult
+                                ? NoRiskClientColors.blue.withOpacity(0.5)
+                                : NoRiskClientColors.blue,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: isProcessingResult
+                                ? [
+                                    NoRiskText(
+                                        AppLocalizations.of(context)!
+                                            .signIn_signingIn
+                                            .toLowerCase(),
+                                        spaceTop: false,
+                                        spaceBottom: false,
+                                        style: TextStyle(
+                                            fontSize: 35,
+                                            color: Colors.white.withOpacity(0.5)))
+                                  ]
+                                : [
+                                    NoRiskText(
                                       AppLocalizations.of(context)!
-                                          .signIn_signingIn
-                                          .toLowerCase(),  
+                                          .signIn_scanQrCode
+                                          .toLowerCase(),
                                       spaceTop: false,
                                       spaceBottom: false,
                                       style: TextStyle(
+                                          color: isProcessingResult
+                                              ? Colors.white.withOpacity(0.5)
+                                              : Colors.white,
                                           fontSize: 35,
-                                          color: Colors.white.withOpacity(0.5)))
-                                ]
-                              : [
-                                  NoRiskText(
-                                    AppLocalizations.of(context)!
-                                        .signIn_scanQrCode
-                                        .toLowerCase(),
-                                    spaceTop: false,
-                                    spaceBottom: false,
-                                    style: TextStyle(
-                                        color: isProcessingResult
-                                            ? Colors.white.withOpacity(0.5)
-                                            : Colors.white,
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () => launchUrl(Config.privacyUrl,
-                            mode: LaunchMode.externalApplication),
-                        child: NoRiskText(
-                            AppLocalizations.of(context)!
-                                .settings_privacyPolicy
-                                .toLowerCase(),
-                            style: TextStyle(
-                                fontSize: 22.5,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.blue)),
-                      ),
-                      const SizedBox(width: 50),
-                      GestureDetector(
-                        onTap: () => launchUrl(Config.termsUrl,
-                            mode: LaunchMode.externalApplication),
-                        child: NoRiskText(
-                            AppLocalizations.of(context)!
-                                .settings_tos
-                                .toLowerCase(),
-                            style: TextStyle(
-                                fontSize: 22.5,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline, 
-                                decorationColor: Colors.blue)),
-                      ),
-                    ]),
-                const SizedBox(height: 10),
-              ]),
-            ],
+                  const SizedBox(height: 5),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => launchUrl(Config.privacyUrl,
+                              mode: LaunchMode.externalApplication),
+                          child: NoRiskText(
+                              AppLocalizations.of(context)!
+                                  .settings_privacyPolicy
+                                  .toLowerCase(),
+                              style: TextStyle(
+                                  fontSize: 22.5,
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.blue)),
+                        ),
+                        const SizedBox(width: 50),
+                        GestureDetector(
+                          onTap: () => launchUrl(Config.termsUrl,
+                              mode: LaunchMode.externalApplication),
+                          child: NoRiskText(
+                              AppLocalizations.of(context)!
+                                  .settings_tos
+                                  .toLowerCase(),
+                              style: TextStyle(
+                                  fontSize: 22.5,
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.blue)),
+                        ),
+                      ]),
+                  const SizedBox(height: 10),
+                ]),
+              ],
+            ),
           ),
         ));
   }
