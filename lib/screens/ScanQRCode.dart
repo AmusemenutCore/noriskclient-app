@@ -97,8 +97,6 @@ class _ScanQRCodeState extends State<ScanQRCode> {
 
   void handleQrCodeResult(
       MobileScannerController controller, String code) async {
-    print('QR Code Detected: $code');
-
     if (code.contains("/giveaways/")) {
       String giveawayId = code.split("/")[code.split("/").length - 2];
 

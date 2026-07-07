@@ -251,8 +251,6 @@ class McRealPostState extends State<ProfileMcRealPost> {
                                 'Authorization': 'Bearer ${userData['token']}'
                               });
                           if (res.statusCode != 200) {
-                            print(res.statusCode);
-                            print(res.body);
                             if (res.statusCode == 401) {
                               Navigator.of(context).pop();
                               getUpdateStream.sink.add(['signOut']);
@@ -290,7 +288,6 @@ class McRealPostState extends State<ProfileMcRealPost> {
                                 'Authorization': 'Bearer ${userData['token']}'
                               });
                           if (res.statusCode != 200) {
-                            print(res.statusCode);
                             if (res.statusCode == 401) {
                               Navigator.of(context).pop();
                               getUpdateStream.sink.add(['signOut']);
@@ -335,7 +332,6 @@ class McRealPostState extends State<ProfileMcRealPost> {
                                 'Authorization': 'Bearer ${userData['token']}'
                               });
                           if (res.statusCode != 200) {
-                            print(res.statusCode);
                             if (res.statusCode == 401) {
                               Navigator.of(context).pop();
                               getUpdateStream.sink.add(['signOut']);
@@ -374,7 +370,6 @@ class McRealPostState extends State<ProfileMcRealPost> {
                                 'Authorization': 'Bearer ${userData['token']}'
                               });
                           if (res.statusCode != 200) {
-                            print(res.statusCode);
                             if (res.statusCode == 401) {
                               Navigator.of(context).pop();
                               getUpdateStream.sink.add(['signOut']);

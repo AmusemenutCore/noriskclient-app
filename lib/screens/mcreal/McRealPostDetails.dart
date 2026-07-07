@@ -58,7 +58,6 @@ class McRealState extends State<PostDetails> {
                 '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/post/$commentId?uuid=${userData['uuid']}'),
             headers: {'Authorization': 'Bearer ${userData['token']}'});
         if (res.statusCode != 200) {
-          print("Load comment: ${res.statusCode}");
           if (res.statusCode == 401) {
             Navigator.of(context).pop();
             getUpdateStream.sink.add(['signOut']);
@@ -232,18 +231,17 @@ class McRealState extends State<PostDetails> {
             '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/comments?uuid=${userData['uuid']}&page=$page&postId=${widget.postData['post']['_id']}'),
         headers: {'Authorization': 'Bearer ${userData['token']}'});
     if (res.statusCode != 200) {
-      print(res.statusCode);
       if (res.statusCode == 401) {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
-      } else if (res.statusCode == 400) {}
+      }
+      isLoadingNewComments = false;
       return;
     }
     Map<String, dynamic> commentsData = jsonDecode(utf8.decode(res.bodyBytes));
 
     if (commentsData['comments'].length < Config.maxCommentsPerPage) {
       hitEnd = true;
-      print('Hit end!!!');
     } else {
       hitEnd = false;
     }
@@ -259,13 +257,10 @@ class McRealState extends State<PostDetails> {
     List<McRealComment> existingPosts = comments ?? [];
     int scrollOffset = scrollController.offset.toInt();
 
-    await Future.delayed(const Duration(milliseconds: 20));
     setState(() {
       comments = [...existingPosts, ...newComments];
     });
     scrollController.jumpTo(scrollOffset.toDouble());
-    print(
-        'New comments (${newComments.length}): ${newComments.map((c) => c.commentData['comment']['_id'])}');
 
     isLoadingNewComments = false;
   }

@@ -228,7 +228,6 @@ class ReportMcRealState extends State<ReportMcReal> {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
-      print(res.statusCode);
       return;
     }
     Navigator.of(context).pop();

@@ -61,7 +61,6 @@ class McRealState extends State<McReal> {
               '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/post/$data?uuid=${userData['uuid']}'),
           headers: {'Authorization': 'Bearer ${userData['token']}'});
       if (res.statusCode != 200) {
-        print("Load player post: ${res.statusCode}");
         if (res.statusCode == 403) {
           setState(() {
             ownPost = null;
@@ -307,7 +306,6 @@ class McRealState extends State<McReal> {
             '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/post?uuid=${userData['uuid']}'),
         headers: {'Authorization': 'Bearer ${userData['token']}'});
     if (res.statusCode != 200) {
-      print("Load player post: ${res.statusCode}");
       if (res.statusCode == 403) {
         setState(() {
           ownPost = null;
@@ -339,13 +337,17 @@ class McRealState extends State<McReal> {
 
   Future<void> loadPosts() async {
     isLoadingNewPosts = true;
-    await loadPlayerPost();
+    // Only fetch the player's own post on the first page; pagination should
+    // not re-fetch it every time the user scrolls down.
+    if (page == 0) {
+      await loadPlayerPost();
+    }
     http.Response res = await http.get(
         Uri.parse(
             '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/posts?uuid=${userData['uuid']}&page=$page&friendsOnly=${activeTab == 0}&partnersOnly=${activeTab == 2}'),
         headers: {'Authorization': 'Bearer ${userData['token']}'});
     if (res.statusCode != 200) {
-      print("Load posts: ${res.statusCode}");
+      isLoadingNewPosts = false;
       if (res.statusCode == 401) {
         getUpdateStream.sink.add(['signOut']);
       }
@@ -353,11 +355,8 @@ class McRealState extends State<McReal> {
     }
     List postsData = jsonDecode(utf8.decode(res.bodyBytes));
 
-    print(postsData.length);
-
     if (postsData.length < Config.maxPostsPerPage) {
       hitEnd = true;
-      print('Hit end!!!');
     } else {
       hitEnd = false;
     }
@@ -375,11 +374,7 @@ class McRealState extends State<McReal> {
     for (var postData in postsData) {
       bool isBlocked =
           await BlockingManager().checkBlocked(postData['post']['author']);
-      if (isBlocked) {
-        print(
-            'Skipped blocked post ${postData['post']['_id']} (${postData['post']['author']})');
-        continue;
-      }
+      if (isBlocked) continue;
       
       newPosts.add(McRealPost(
           locked: ownPost == null || lockedReason != '',
@@ -391,12 +386,10 @@ class McRealState extends State<McReal> {
     List<McRealPost> existingPosts = posts;
     int scrollOffset = scrollController.offset.toInt();
 
-    await Future.delayed(const Duration(milliseconds: 10));
     setState(() {
       posts = [...existingPosts, ...newPosts];
     });
     scrollController.jumpTo(scrollOffset.toDouble());
-    print('New posts: ${posts.map((p) => p.postData['post']['_id'])}');
 
     isLoadingNewPosts = false;
   }

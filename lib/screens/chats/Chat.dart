@@ -40,21 +40,9 @@ class ChatState extends State<Chat> {
 
   @override
   void initState() {
-    for (int i = 0; i < 5; i++) {
-      () async {
-        while (isLoadingNewChats) {
-          await Future.delayed(const Duration(milliseconds: 100));
-        }
-        setState(() {
-          page = page + 1;
-          messages = messages;
-        });
-        await loadMessages();
-      }();
-      if (hitEnd) {
-        break;
-      }
-    }
+    // Load the first page of messages immediately.
+    loadMessages();
+
     scrollController.addListener(() async {
       double maxScroll = scrollController.position.maxScrollExtent;
       double currentScroll = scrollController.position.pixels;
@@ -256,7 +244,6 @@ class ChatState extends State<Chat> {
 
     if (messagesData.length < Config.messagesPerPage) {
       hitEnd = true;
-      print('Hit end!!!');
     } else {
       hitEnd = false;
     }

@@ -292,7 +292,6 @@ class McRealPostState extends State<McRealComment> {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
-      print(res.statusCode);
       return;
     }
     Map<String, dynamic> commentsData = jsonDecode(utf8.decode(res.bodyBytes));
@@ -359,7 +358,6 @@ class McRealPostState extends State<McRealComment> {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
-      print(res.statusCode);
       return;
     }
     widget.commentUpdateStream.sink.add(widget.commentData['comment']['_id']);
@@ -398,7 +396,6 @@ class McRealPostState extends State<McRealComment> {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
-      print(res.statusCode);
       return;
     }
     widget.commentUpdateStream.sink.add(widget.commentData['comment']['_id']);
@@ -438,7 +435,6 @@ class McRealPostState extends State<McRealComment> {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);
       }
-      print(res.statusCode);
       return;
     }
     widget.commentUpdateStream.sink.add(widget.commentData['comment']['_id']);
@@ -487,7 +483,6 @@ class McRealPostState extends State<McRealComment> {
                               Navigator.of(context).pop();
                               getUpdateStream.sink.add(['signOut']);
                             }
-                            print(res.statusCode);
                             return;
                           }
                           setState(() {
@@ -528,7 +523,6 @@ class McRealPostState extends State<McRealComment> {
                               Navigator.of(context).pop();
                               getUpdateStream.sink.add(['signOut']);
                             }
-                            print(res.statusCode);
                             return;
                           }
                           setState(() {

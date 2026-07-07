@@ -1,0 +1,2 @@
+- [BlockingManager singleton cache scoping](blocking-manager.md) — cache is keyed per user UUID; must call invalidate() on sign-out to prevent cross-account bleed.
+- [Global state architecture](global-state.md) — auth and cache live in untyped Maps + StreamController<List> in main.dart; follow-up tasks exist to replace this with typed providers.

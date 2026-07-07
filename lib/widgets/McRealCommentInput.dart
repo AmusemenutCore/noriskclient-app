@@ -96,7 +96,6 @@ class McRealPostState extends State<McRealCommentInput> {
             '${NoRiskApi().getBaseUrl(widget.userData['experimental'], 'mcreal')}/comments?uuid=${widget.userData['uuid']}&postId=${widget.postId}${widget.parentCommentId != null ? '&parentCommentId=${widget.parentCommentId}' : ''}&text=$content'),
         headers: {'Authorization': 'Bearer ${widget.userData['token']}'});
     if (res.statusCode != 200) {
-      print("Create comment: ${res.statusCode}");
       if (res.statusCode == 401) {
         Navigator.of(context).pop();
         getUpdateStream.sink.add(['signOut']);

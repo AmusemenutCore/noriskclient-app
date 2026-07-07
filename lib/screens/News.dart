@@ -38,8 +38,9 @@ class _NewsState extends State<News> {
     List<dynamic> posts = await NoRiskApi().getBlogPostsAndChangeLogs();
     List<Widget> newsPosts = [];
 
-    for (var post in posts) {
-      bool isNewest = posts.indexOf(post) == 0;
+    for (int i = 0; i < posts.length; i++) {
+      final post = posts[i];
+      bool isNewest = i == 0;
       if (isNewest) {
         newsPosts.add(NoRiskText('Newest'.toLowerCase(),
             style: TextStyle(

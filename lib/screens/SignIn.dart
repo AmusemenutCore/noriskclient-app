@@ -245,12 +245,25 @@ class SignInState extends State<SignIn> {
 
   Future<void> handleQrCodeResult(
       MobileScannerController controller, String result) async {
-    Map<String, dynamic> userData = jsonDecode(result);
-    if (userData['uuid'] == null ||
-        userData['experimental'] == null ||
-        userData['token'] == null) {
+    // Validate QR payload before trusting any fields.
+    Map<String, dynamic> userData;
+    try {
+      final decoded = jsonDecode(result);
+      if (decoded is! Map<String, dynamic>) return;
+      userData = decoded;
+    } catch (_) {
       return;
     }
+
+    final uuid = userData['uuid'];
+    final token = userData['token'];
+    final experimental = userData['experimental'];
+    if (uuid is! String || uuid.isEmpty ||
+        token is! String || token.isEmpty ||
+        experimental is! bool) {
+      return;
+    }
+
     Vibration.vibrate(duration: 500);
 
     controller.stop();
@@ -330,16 +343,14 @@ class SignInState extends State<SignIn> {
   }
 
   Future<void> signIn(Map<String, dynamic> userData) async {
-    http.Response res = await http.get(
-        Uri.parse(
-            '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/user/validateToken?uuid=${userData['uuid']}'),
-        headers: {'Authorization': 'Bearer ${userData['token']}'});
-
     setState(() {
       isProcessingResult = true;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
+    http.Response res = await http.get(
+        Uri.parse(
+            '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/user/validateToken?uuid=${userData['uuid']}'),
+        headers: {'Authorization': 'Bearer ${userData['token']}'});
 
     if (res.statusCode != 200) {
       setState(() {

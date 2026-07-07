@@ -59,7 +59,6 @@ class McRealPostState extends State<McRealPost> {
 
   @override
   void initState() {
-    print(widget.postData);
     getUpdateStream.sink.add([
       'loadSkin',
       widget.postData['post']['author'],
@@ -664,7 +663,6 @@ class McRealPostState extends State<McRealPost> {
           'Content-Type': 'application/json'
         }).then((http.Response res) {
       if (res.statusCode != 200) {
-        print(res.statusCode);
         setState(() {
           widget.postData['likes'] = oldLikes;
           widget.postData['dislikes'] = oldDislikes;
@@ -719,7 +717,6 @@ class McRealPostState extends State<McRealPost> {
           'Content-Type': 'application/json'
         });
     if (res.statusCode != 200) {
-      print(res.statusCode);
       setState(() {
         widget.postData['likes'] = oldLikes;
         widget.postData['dislikes'] = oldDislikes;
@@ -764,7 +761,6 @@ class McRealPostState extends State<McRealPost> {
           'Content-Type': 'application/json'
         });
     if (res.statusCode != 200) {
-      print(res.statusCode);
       setState(() {
         widget.postData['likes'] = oldLikes;
         widget.postData['dislikes'] = oldDislikes;
@@ -848,7 +844,6 @@ class McRealPostState extends State<McRealPost> {
                                 'Authorization': 'Bearer ${userData['token']}'
                               });
                           if (res.statusCode != 200) {
-                            print(res.statusCode);
                             if (res.statusCode == 401) {
                               if (widget.commentUpdateStream != null) {
                                 Navigator.of(context).pop();
@@ -888,7 +883,6 @@ class McRealPostState extends State<McRealPost> {
                                 'Authorization': 'Bearer ${userData['token']}'
                               });
                           if (res.statusCode != 200) {
-                            print(res.statusCode);
                             if (res.statusCode == 401) {
                               if (widget.commentUpdateStream != null) {
                                 Navigator.of(context).pop();

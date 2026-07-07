@@ -1,17 +1,12 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/config/Config.dart';
 import 'package:noriskclient/main.dart';
-import 'package:noriskclient/provider/localeProvider.dart';
 import 'package:noriskclient/screens/NoRiskProfile.dart';
 import 'package:noriskclient/utils/BlockingManager.dart';
 import 'package:noriskclient/utils/NoRiskApi.dart';
 import 'package:noriskclient/widgets/ChatListItem.dart';
 import 'package:noriskclient/widgets/NoRiskText.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Chats extends StatefulWidget {
   const Chats({super.key});
@@ -26,7 +21,6 @@ class ChatsState extends State<Chats> {
 
   @override
   void initState() {
-    loadLanguage();
     loadChats();
     chatUpdateStream.stream.listen((String data) async {
       if (data == '*') {
@@ -92,24 +86,6 @@ class ChatsState extends State<Chats> {
         ));
   }
 
-  Future<void> loadLanguage() async {
-    // Ich schäme mich dafür aber juckt jz grad :skull:
-    await Future.delayed(const Duration(seconds: 1));
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String language = prefs.getString('language') ??
-        (Config.availableLanguages
-                .contains(PlatformDispatcher.instance.locale.languageCode)
-            ? PlatformDispatcher.instance.locale.languageCode
-            : Config.fallbackLangauge);
-    if (!mounted) return;
-    final provider = Provider.of<LocaleProvider>(context, listen: false);
-    provider.setLocale(language);
-
-    if (prefs.getString('language') == null) {
-      await prefs.setString('language', language);
-    }
-  }
-
   Future<void> loadChats() async {
     List<dynamic> chatsData = await NoRiskApi().getPrivateChats();
 
@@ -119,11 +95,7 @@ class ChatsState extends State<Chats> {
           .firstWhere((p) => p['userId'] != userData['uuid'])['userId'];
       bool isBlocked = await BlockingManager().checkBlocked(participantId);
 
-      if (isBlocked) {
-        print(
-            'Skipped blocked ChatListItem ${chatData['_id']} ($participantId)');
-        continue;
-      }
+      if (isBlocked) continue;
 
       newChats.add(ChatListItem(
           chatId: chatData['_id'],

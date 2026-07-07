@@ -56,8 +56,6 @@ class ProfileState extends State<Profile> {
           })
     ]);
 
-    // profilePostsUpdateStream.stream
-    //     .listen((List data) => loadPinnedPosts(data[0], data[1]));
     super.initState();
   }
 
@@ -66,12 +64,10 @@ class ProfileState extends State<Profile> {
       setState(() {
         PSJahn = !PSJahn;
       });
-      print('Toggled PSJahn, now $PSJahn');
     } else if (widget.uuid == '625dd22b-bad2-4b82-a0bc-e43ba1c1a7fd') {
       setState(() {
         Aim_shock = !Aim_shock;
       });
-      print('Toggled Aim_shock, now $Aim_shock');
 
       if (Aim_shock) {
         showDialog(
@@ -510,9 +506,6 @@ class ProfileState extends State<Profile> {
     }
 
     await NoRiskApi().getUserProfile(widget.uuid);
-
-    // ahaha bro wie scuffed, aber sonst ist noch nt im cache 🥀🥀🥀
-    await Future.delayed(const Duration(milliseconds: 100));
 
     setState(() {
       cache = getCache;

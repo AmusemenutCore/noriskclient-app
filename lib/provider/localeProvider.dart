@@ -22,7 +22,6 @@ class LocaleProvider extends ChangeNotifier {
                 .contains(PlatformDispatcher.instance.locale.languageCode)
             ? PlatformDispatcher.instance.locale.languageCode
             : Config.fallbackLangauge);
-    print('LANGUAGE: $language');
     setLocale(language);
 
     if (prefs.getString('language') == null) {

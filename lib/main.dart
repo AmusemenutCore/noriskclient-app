@@ -5,8 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:noriskclient/config/Colors.dart'; 
+import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
+import 'package:noriskclient/utils/BlockingManager.dart';
 import 'package:noriskclient/NoRiskClient.dart';
 import 'package:noriskclient/screens/SignIn.dart';
 import 'package:provider/provider.dart';
@@ -94,6 +95,7 @@ class AppState extends State<App> {
           Navigator.pop(context);
         }
         activeTabIndex = 2;
+        BlockingManager().invalidate();
         clearUserData();
         clearCache();
       } else if (event == 'tabIndex') {
@@ -179,7 +181,8 @@ class AppState extends State<App> {
               ),
             );
           });
-    } else if (isIOS) {
+    } else {
+      // iOS, macOS, web, Linux, Windows
       app = ChangeNotifierProvider(
           create: (context) => LocaleProvider(),
           builder: (context, child) {
@@ -209,7 +212,7 @@ class AppState extends State<App> {
   }
 
   bool validUserData() {
-    return userData['uuid'] != '' && userData['uuid'] != '';
+    return userData['uuid'] != '' && userData['token'] != '';
   }
 
   Future<void> loadUserData() async {

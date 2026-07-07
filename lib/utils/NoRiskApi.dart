@@ -171,8 +171,6 @@ class NoRiskApi {
   }
 
   Future<Map<String, dynamic>?> getGamescomInfos() async {
-    print(
-        'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos');
     final response = await http.get(Uri.parse(
         'https://api${getUserData['experimental'] == true ? '-staging' : ''}.norisk.gg/api/v1/discord/gamescom-infos'));
 
