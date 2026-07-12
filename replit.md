@@ -35,9 +35,11 @@ lib/
 - `BlockingManager` is a singleton with a per-user in-memory cache; call `BlockingManager().invalidate()` on sign-out (already wired in `main.dart`).
 
 ## Onboarding / sign-in flow
-- Login is QR-code only: the code comes from the NoRiskClient Launcher (a separate PC download), scanned with this app — there is no email/password path.
-- First-run order: `LanguageSelect` (pick DE/EN before any other copy is shown) -> `QrGuide` (explains where to get the QR code, with "Scan Now" / "Maybe Later" — shown once) -> `SignIn`. Gating flags (`languageChosen`, `onboardingSeen`) live in `main.dart` and persist via `SharedPreferences` (`language`, `onboardingSeen` keys), following the same global-flag pattern as `userData`.
-- `SignIn` shows an inline error message on failed login (invalid/expired QR vs. network failure) instead of silently resetting, and has a permanent "How do I get a QR code?" link back into `QrGuide`.
+- Login is QR-code only: the code comes from the NoRiskClient Launcher (a separate PC download, linked as plain text in the guide — no in-app download button), scanned with this app — there is no email/password path.
+- First-run order: `LanguageSelect` (pick DE/EN before any other copy is shown) -> `QrGuide` (explains where to get the QR code, with "Scan Now" / "Maybe Later" — shown once). Gating flags (`languageChosen`, `onboardingSeen`) live in `main.dart` and persist via `SharedPreferences` (`language`, `onboardingSeen` keys), following the same global-flag pattern as `userData`.
+- No token is ever required to browse News: after onboarding, a user without a token lands directly in guest mode (`NoRiskClient(isGuest: true)`), not on a forced sign-in screen. Tapping "Scan Now" is the only path that shows `SignIn`, and only for one rebuild (`showSignInNow`, an ephemeral non-persisted flag in `main.dart`); "Maybe Later" goes straight to guest mode.
+- Guest mode's bottom nav shows only News + a "Login" entry (reusing the profile icon) that pushes `SignIn` on top of guest browsing — canceling out of it (back button or the "continue without an account" link) simply pops back, it never dead-ends. Chat/McReal/Profile all require a token and are hidden, not shown disabled.
+- `SignIn` shows an inline error message on failed login (invalid/expired QR vs. network failure) instead of silently resetting, and has a permanent "How do I get a QR code?" link back into `QrGuide`. It also conditionally shows a "continue without an account" link (only when reached via onboarding's "Scan Now") and a manual back button (only when pushed on top of another screen, e.g. from guest mode's Login tab) — it has no `AppBar`, so both are custom-built.
 - The bottom nav's Gamescom tab (time-limited event placeholder, event has passed) was removed rather than left disabled; tab indices shifted down by one (You is now index 3).
 
 ## User preferences

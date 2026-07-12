@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/config/Config.dart';
 import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:noriskclient/widgets/NoRiskButton.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 import 'package:noriskclient/widgets/NoRiskText.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Explains where the login QR code comes from (the NoRiskClient Launcher,
 /// which is a separate PC download) before the user is asked to scan one.
@@ -51,29 +49,6 @@ class QrGuide extends StatelessWidget {
                     _GuideStep(number: 2, text: t.qrGuide_step2),
                     _GuideStep(number: 3, text: t.qrGuide_step3),
                     _GuideStep(number: 4, text: t.qrGuide_step4),
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () => launchUrl(Config.launcherDownloadUrl,
-                          mode: LaunchMode.externalApplication),
-                      child: NoRiskContainer(
-                        height: 55,
-                        color: NoRiskClientColors.light,
-                        backgroundOpacity: 150,
-                        child: Center(
-                          child: NoRiskText(
-                            t.qrGuide_downloadLauncher.toLowerCase(),
-                            spaceTop: false,
-                            spaceBottom: false,
-                            style: const TextStyle(
-                                color: NoRiskClientColors.blue,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.underline,
-                                decorationColor: NoRiskClientColors.blue),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

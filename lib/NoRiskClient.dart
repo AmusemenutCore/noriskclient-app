@@ -10,7 +10,11 @@ import 'package:noriskclient/widgets/BottomNavigationBar.dart';
 import 'package:provider/provider.dart';
 
 class NoRiskClient extends StatefulWidget {
-  const NoRiskClient({super.key});
+  const NoRiskClient({super.key, this.isGuest = false});
+
+  /// True when there is no token: only News is reachable, and the nav's
+  /// "You" tab becomes a "Login" entry point instead of a profile screen.
+  final bool isGuest;
 
   @override
   State<NoRiskClient> createState() => NoRiskClientState();
@@ -18,7 +22,7 @@ class NoRiskClient extends StatefulWidget {
 
 class NoRiskClientState extends State<NoRiskClient> {
   StreamController<int> activeTabIndexController = StreamController<int>();
-  int tabIndex = activeTabIndex;
+  late int tabIndex = widget.isGuest ? 0 : activeTabIndex;
 
   @override
   void dispose() {
@@ -41,6 +45,11 @@ class NoRiskClientState extends State<NoRiskClient> {
   }
 
   Widget getActiveTab() {
+    // Guests only have a token-free screen to show; Chats/McReal/Profile all
+    // require a signed-in user, so the nav never routes a guest to them.
+    if (widget.isGuest) {
+      return News();
+    }
     switch (tabIndex) {
       case 0:
         return News(); // News
@@ -64,6 +73,7 @@ class NoRiskClientState extends State<NoRiskClient> {
           Align(
               alignment: Alignment.bottomCenter,
               child: NoRiskBottomNavigationBar(
+                  isGuest: widget.isGuest,
                   currentIndex: tabIndex,
                   currentIndexController: activeTabIndexController)),
         ]));

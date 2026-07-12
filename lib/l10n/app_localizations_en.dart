@@ -270,7 +270,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qrGuide_title => 'How to get your QR code';
 
   @override
-  String get qrGuide_step1 => 'Download the NoRisk Client Launcher on your PC.';
+  String get qrGuide_step1 => 'Download the NoRisk Client Launcher on your PC from norisk.gg/downloads.';
 
   @override
   String get qrGuide_step2 => 'Install it and log in with your Minecraft account.';
@@ -280,9 +280,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qrGuide_step4 => 'Scan the QR code shown there with this app.';
-
-  @override
-  String get qrGuide_downloadLauncher => 'Download Launcher';
 
   @override
   String get qrGuide_scanNow => 'Scan QR Code Now';
@@ -298,4 +295,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signIn_error_network => 'Couldn\'t reach the server. Check your internet connection and try again.';
+
+  @override
+  String get signIn_continueAsGuest => 'Continue without an account';
+
+  @override
+  String get navbar_login => 'Login';
 }

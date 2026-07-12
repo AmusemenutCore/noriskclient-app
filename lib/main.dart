@@ -46,6 +46,11 @@ int activeTabIndex = 2;
 bool languageChosen = false;
 bool onboardingSeen = false;
 bool autoOpenScannerNext = false;
+// Ephemeral (not persisted): set for exactly one rebuild when the user taps
+// "Scan Now" on the onboarding guide, so getHome() shows SignIn once instead
+// of dropping straight into guest mode. Reset by getHome() once consumed, and
+// also by SignIn's "continue without an account" link if the user backs out.
+bool showSignInNow = false;
 final StreamController<List> updateStream = StreamController<List>();
 
 Map<String, Map<String, dynamic>> get getCache => cache;
@@ -161,8 +166,15 @@ class AppState extends State<App> {
   }
 
   /// Decides which screen to show before the main app: language picker (once,
-  /// ever) -> QR-code onboarding guide (once, before the first sign-in
-  /// attempt) -> sign-in -> the app itself.
+  /// ever) -> QR-code onboarding guide (once, before the first sign-in is
+  /// attempted) -> either sign-in (if the user chose to scan now) or guest
+  /// browsing (News only, no chat/profile) -> the full app once signed in.
+  ///
+  /// Signing in is never forced: once onboarding has been seen, a user
+  /// without a token lands in guest mode, not on a QR-scan screen, so
+  /// "maybe later" never feels like being sent back to square one. SignIn is
+  /// only shown for the single rebuild right after "Scan Now" is tapped, or
+  /// when the user explicitly opens it from guest mode's login tab.
   Widget getHome() {
     if (!languageChosen) {
       return LanguageSelect(onLanguageChosen: () {
@@ -179,6 +191,7 @@ class AppState extends State<App> {
             markOnboardingSeen();
             setState(() {
               onboardingSeen = true;
+              showSignInNow = true;
               autoOpenScannerNext = true;
             });
           },
@@ -186,14 +199,23 @@ class AppState extends State<App> {
             markOnboardingSeen();
             setState(() {
               onboardingSeen = true;
-              autoOpenScannerNext = false;
             });
           },
         );
       }
-      final openScanner = autoOpenScannerNext;
-      autoOpenScannerNext = false;
-      return SignIn(autoOpenScanner: openScanner);
+      if (showSignInNow) {
+        final openScanner = autoOpenScannerNext;
+        autoOpenScannerNext = false;
+        return SignIn(
+          autoOpenScanner: openScanner,
+          onContinueAsGuest: () {
+            setState(() {
+              showSignInNow = false;
+            });
+          },
+        );
+      }
+      return NoRiskClient(isGuest: true);
     }
 
     return NoRiskClient();

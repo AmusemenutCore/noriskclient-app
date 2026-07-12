@@ -18,11 +18,17 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key, this.autoOpenScanner = false});
+  const SignIn({super.key, this.autoOpenScanner = false, this.onContinueAsGuest});
 
   /// When true, the QR scanner opens automatically once this screen mounts.
   /// Used when the user taps "Scan QR Code Now" on the onboarding guide.
   final bool autoOpenScanner;
+
+  /// When set, shows a "continue without an account" link that lets the user
+  /// back out into guest browsing instead of completing sign-in. Only passed
+  /// when this screen is shown as the app's root (right after onboarding);
+  /// when pushed on top of guest mode, a back button is used instead.
+  final void Function()? onContinueAsGuest;
 
   @override
   State<SignIn> createState() => SignInState();
@@ -59,11 +65,13 @@ class SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final bool canGoBack = Navigator.of(context).canPop();
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: NoRiskClientColors.background,
         body: SafeArea(
-          child: Padding(
+          child: Stack(children: [
+            Padding(
             padding:
                 const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
             child: Column(
@@ -131,6 +139,26 @@ class SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
+                  if (widget.onContinueAsGuest != null)
+                    GestureDetector(
+                      onTap: widget.onContinueAsGuest,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: NoRiskText(
+                          AppLocalizations.of(context)!
+                              .signIn_continueAsGuest
+                              .toLowerCase(),
+                          spaceTop: false,
+                          spaceBottom: false,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: NoRiskClientColors.textLight,
+                              decoration: TextDecoration.underline,
+                              decorationColor: NoRiskClientColors.textLight),
+                        ),
+                      ),
+                    ),
                   if (errorMessageKey != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -232,7 +260,18 @@ class SignInState extends State<SignIn> {
               ],
             ),
           ),
-        ));
+          if (canGoBack)
+            Padding(
+              padding: const EdgeInsets.only(left: 5, top: 5),
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.arrow_back_rounded,
+                    color: Colors.white, size: 28),
+              ),
+            ),
+        ]),
+      ),
+    );
   }
 
   void scanQrCode() {

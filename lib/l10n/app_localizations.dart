@@ -620,7 +620,7 @@ abstract class AppLocalizations {
   /// No description provided for @qrGuide_step1.
   ///
   /// In en, this message translates to:
-  /// **'Download the NoRisk Client Launcher on your PC.'**
+  /// **'Download the NoRisk Client Launcher on your PC from norisk.gg/downloads.'**
   String get qrGuide_step1;
 
   /// No description provided for @qrGuide_step2.
@@ -640,12 +640,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scan the QR code shown there with this app.'**
   String get qrGuide_step4;
-
-  /// No description provided for @qrGuide_downloadLauncher.
-  ///
-  /// In en, this message translates to:
-  /// **'Download Launcher'**
-  String get qrGuide_downloadLauncher;
 
   /// No description provided for @qrGuide_scanNow.
   ///
@@ -676,6 +670,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn't reach the server. Check your internet connection and try again.'**
   String get signIn_error_network;
+
+  /// No description provided for @signIn_continueAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without an account'**
+  String get signIn_continueAsGuest;
+
+  /// No description provided for @navbar_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get navbar_login;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

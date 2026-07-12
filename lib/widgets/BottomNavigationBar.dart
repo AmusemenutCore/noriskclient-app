@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:noriskclient/main.dart';
+import 'package:noriskclient/screens/SignIn.dart';
 import 'package:noriskclient/utils/NoRiskIcon.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 import 'package:noriskclient/widgets/NoRiskIconButton.dart';
@@ -14,10 +15,16 @@ class NoRiskBottomNavigationBar extends StatefulWidget {
     super.key,
     required this.currentIndexController,
     this.currentIndex = 2,
+    this.isGuest = false,
   });
 
   final StreamController<int> currentIndexController;
   int currentIndex;
+
+  /// Guests only get News + a Login entry point; Chats/McReal/You all need
+  /// an account and are hidden rather than shown disabled, per the decision
+  /// to keep guest browsing to a single, uncluttered tab.
+  final bool isGuest;
 
   @override
   State<NoRiskBottomNavigationBar> createState() =>
@@ -39,36 +46,58 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _BottomNavigationBarButton(
-                index: 0,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.news,
-                label: 'news',
-                onTap: () => widget.currentIndexController.sink.add(0)),
-            _BottomNavigationBarButton(
-              index: 1,
-              currentIndex: widget.currentIndex,
-              icon: NoRiskIcon.chats,
-              label: 'chats',
-              onTap: () => widget.currentIndexController.sink.add(1),
-            ),
-            _BottomNavigationBarButton(
-                index: 2,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.mcreal,
-                label: 'mcreal',
-                onTap: () => widget.currentIndexController.sink.add(2)),
-            // Gamescom was a time-limited placeholder tab (event has since
-            // passed); hidden rather than shown disabled so it doesn't read
-            // as a broken tab. Re-add when there's an active event to link.
-            _BottomNavigationBarButton(
-                index: 3,
-                currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.profile,
-                label: AppLocalizations.of(context)!.navbar_you.toLowerCase(),
-                onTap: () => widget.currentIndexController.sink.add(3)),
-          ],
+          children: widget.isGuest
+              ? [
+                  _BottomNavigationBarButton(
+                      index: 0,
+                      currentIndex: 0,
+                      icon: NoRiskIcon.news,
+                      label: 'news',
+                      onTap: () {}),
+                  _BottomNavigationBarButton(
+                    index: 1,
+                    currentIndex: 0,
+                    icon: NoRiskIcon.profile,
+                    label: AppLocalizations.of(context)!
+                        .navbar_login
+                        .toLowerCase(),
+                    onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SignIn())),
+                  ),
+                ]
+              : [
+                  _BottomNavigationBarButton(
+                      index: 0,
+                      currentIndex: widget.currentIndex,
+                      icon: NoRiskIcon.news,
+                      label: 'news',
+                      onTap: () => widget.currentIndexController.sink.add(0)),
+                  _BottomNavigationBarButton(
+                    index: 1,
+                    currentIndex: widget.currentIndex,
+                    icon: NoRiskIcon.chats,
+                    label: 'chats',
+                    onTap: () => widget.currentIndexController.sink.add(1),
+                  ),
+                  _BottomNavigationBarButton(
+                      index: 2,
+                      currentIndex: widget.currentIndex,
+                      icon: NoRiskIcon.mcreal,
+                      label: 'mcreal',
+                      onTap: () => widget.currentIndexController.sink.add(2)),
+                  // Gamescom was a time-limited placeholder tab (event has
+                  // since passed); hidden rather than shown disabled so it
+                  // doesn't read as a broken tab. Re-add if there's an
+                  // active event to link again.
+                  _BottomNavigationBarButton(
+                      index: 3,
+                      currentIndex: widget.currentIndex,
+                      icon: NoRiskIcon.profile,
+                      label: AppLocalizations.of(context)!
+                          .navbar_you
+                          .toLowerCase(),
+                      onTap: () => widget.currentIndexController.sink.add(3)),
+                ],
         ),
       ),
     );
