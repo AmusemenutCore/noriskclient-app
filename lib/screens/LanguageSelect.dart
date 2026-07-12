@@ -38,7 +38,7 @@ class LanguageSelect extends StatelessWidget {
               const SizedBox(height: 30),
               // Shown before a language is picked, so both languages are
               // spelled out at once rather than relying on device locale.
-              const NoRiskText('choose your language',
+              NoRiskText('choose your language',
                   spaceTop: false,
                   spaceBottom: false,
                   textAlign: TextAlign.center,
@@ -47,7 +47,7 @@ class LanguageSelect extends StatelessWidget {
                       fontSize: 26,
                       fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
-              const NoRiskText('wähle deine sprache',
+              NoRiskText('wähle deine sprache',
                   spaceTop: false,
                   spaceBottom: false,
                   textAlign: TextAlign.center,
@@ -74,7 +74,7 @@ class LanguageSelect extends StatelessWidget {
                   ),
                 ),
               const SizedBox(height: 10),
-              const NoRiskText('you can change this later in settings',
+              NoRiskText('you can change this later in settings',
                   spaceTop: false,
                   spaceBottom: false,
                   textAlign: TextAlign.center,
