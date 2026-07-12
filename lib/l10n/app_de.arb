@@ -84,5 +84,16 @@
   "chat_message_deleted": "Diese Nachricht wurde gelöscht.",
   "chat_chat_empty": "Leerer Chat",
   "navbar_you": "Du",
-  "gamescom_no_infos": "Aktuell sind keine Infos verfügbar."
+  "gamescom_no_infos": "Aktuell sind keine Infos verfügbar.",
+  "qrGuide_title": "So bekommst du deinen QR-Code",
+  "qrGuide_step1": "Lade den NoRisk Client Launcher auf deinem PC herunter.",
+  "qrGuide_step2": "Installiere ihn und melde dich mit deinem Minecraft-Account an.",
+  "qrGuide_step3": "Öffne das Menü \"Social Accounts\" neben dem Account-Manager.",
+  "qrGuide_step4": "Scanne den dort angezeigten QR-Code mit dieser App.",
+  "qrGuide_downloadLauncher": "Launcher herunterladen",
+  "qrGuide_scanNow": "Jetzt QR-Code scannen",
+  "qrGuide_later": "Später machen",
+  "qrGuide_helpLink": "Wie bekomme ich einen QR-Code?",
+  "signIn_error_invalid": "Dieser QR-Code ist ungültig oder abgelaufen. Erstelle im Launcher einen neuen und versuche es erneut.",
+  "signIn_error_network": "Server konnte nicht erreicht werden. Prüfe deine Internetverbindung und versuche es erneut."
 }

@@ -265,4 +265,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gamescom_no_infos => 'There are no infos available at the moment.';
+
+  @override
+  String get qrGuide_title => 'How to get your QR code';
+
+  @override
+  String get qrGuide_step1 => 'Download the NoRisk Client Launcher on your PC.';
+
+  @override
+  String get qrGuide_step2 => 'Install it and log in with your Minecraft account.';
+
+  @override
+  String get qrGuide_step3 => 'Open the "Social Accounts" menu next to the account manager.';
+
+  @override
+  String get qrGuide_step4 => 'Scan the QR code shown there with this app.';
+
+  @override
+  String get qrGuide_downloadLauncher => 'Download Launcher';
+
+  @override
+  String get qrGuide_scanNow => 'Scan QR Code Now';
+
+  @override
+  String get qrGuide_later => 'Maybe Later';
+
+  @override
+  String get qrGuide_helpLink => 'How do I get a QR code?';
+
+  @override
+  String get signIn_error_invalid => 'This QR code is invalid or has expired. Please generate a new one in the Launcher and try again.';
+
+  @override
+  String get signIn_error_network => 'Couldn\'t reach the server. Check your internet connection and try again.';
 }

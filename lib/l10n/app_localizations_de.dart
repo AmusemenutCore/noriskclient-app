@@ -265,4 +265,37 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gamescom_no_infos => 'Aktuell sind keine Infos verfügbar.';
+
+  @override
+  String get qrGuide_title => 'So bekommst du deinen QR-Code';
+
+  @override
+  String get qrGuide_step1 => 'Lade den NoRisk Client Launcher auf deinem PC herunter.';
+
+  @override
+  String get qrGuide_step2 => 'Installiere ihn und melde dich mit deinem Minecraft-Account an.';
+
+  @override
+  String get qrGuide_step3 => 'Öffne das Menü "Social Accounts" neben dem Account-Manager.';
+
+  @override
+  String get qrGuide_step4 => 'Scanne den dort angezeigten QR-Code mit dieser App.';
+
+  @override
+  String get qrGuide_downloadLauncher => 'Launcher herunterladen';
+
+  @override
+  String get qrGuide_scanNow => 'Jetzt QR-Code scannen';
+
+  @override
+  String get qrGuide_later => 'Später machen';
+
+  @override
+  String get qrGuide_helpLink => 'Wie bekomme ich einen QR-Code?';
+
+  @override
+  String get signIn_error_invalid => 'Dieser QR-Code ist ungültig oder abgelaufen. Erstelle im Launcher einen neuen und versuche es erneut.';
+
+  @override
+  String get signIn_error_network => 'Server konnte nicht erreicht werden. Prüfe deine Internetverbindung und versuche es erneut.';
 }

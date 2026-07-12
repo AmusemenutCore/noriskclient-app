@@ -59,29 +59,15 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
                 icon: NoRiskIcon.mcreal,
                 label: 'mcreal',
                 onTap: () => widget.currentIndexController.sink.add(2)),
-            // _BottomNavigationBarButton(
-            //   index: 3,
-            //   currentIndex: widget.currentIndex,
-            //   icon: NoRiskIcon.friends,
-            //   label: 'friends',
-            //   onTap: () => widget.currentIndexController.sink.add(3),
-            //   disabled: true,
-            // ),
+            // Gamescom was a time-limited placeholder tab (event has since
+            // passed); hidden rather than shown disabled so it doesn't read
+            // as a broken tab. Re-add when there's an active event to link.
             _BottomNavigationBarButton(
                 index: 3,
                 currentIndex: widget.currentIndex,
-                icon: NoRiskIcon.gamescom,
-                label: 'gamescom',
-                onTap: () => widget.currentIndexController.sink.add(3),
-                fontSize: 21,
-                disabled: true // DateTime.now().isBefore(DateTime(2025, 8, 20))
-            ),
-            _BottomNavigationBarButton(
-                index: 4,
-                currentIndex: widget.currentIndex,
                 icon: NoRiskIcon.profile,
                 label: AppLocalizations.of(context)!.navbar_you.toLowerCase(),
-                onTap: () => widget.currentIndexController.sink.add(4)),
+                onTap: () => widget.currentIndexController.sink.add(3)),
           ],
         ),
       ),
@@ -111,10 +97,26 @@ class _BottomNavigationBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool active = currentIndex == index;
     return GestureDetector(
       onTap: disabled ? () {} : onTap,
             child: Stack(
               children: [
+                // Active-tab indicator: a small accent-colored bar, clearer
+                // at a glance than the previous opacity-only distinction.
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    margin: const EdgeInsets.only(top: 2),
+                    height: 3,
+                    width: active ? 26 : 0,
+                    decoration: BoxDecoration(
+                      color: NoRiskClientColors.blue,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
                 SizedBox(
             width: 65,
             height: 55,
@@ -129,7 +131,7 @@ class _BottomNavigationBarButton extends StatelessWidget {
                     icon: Opacity(
                         opacity: disabled
                             ? 0.4
-                            : currentIndex == index
+                            : active
                                 ? 1
                                 : 0.75,
                         child: icon)),
@@ -149,8 +151,8 @@ class _BottomNavigationBarButton extends StatelessWidget {
                         fontSize: fontSize,
                         color: disabled
                             ? Colors.white.withAlpha((100).floor())
-                            : currentIndex == index
-                                      ? Colors.white
+                            : active
+                                      ? NoRiskClientColors.blue
                                       : Colors.white
                                           .withAlpha((200).floor()))),
                         ),

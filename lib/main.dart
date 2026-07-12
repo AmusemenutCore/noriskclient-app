@@ -9,6 +9,8 @@ import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
 import 'package:noriskclient/utils/BlockingManager.dart';
 import 'package:noriskclient/NoRiskClient.dart';
+import 'package:noriskclient/screens/LanguageSelect.dart';
+import 'package:noriskclient/screens/QrGuide.dart';
 import 'package:noriskclient/screens/SignIn.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -36,6 +38,14 @@ Map<String, Map<String, dynamic>> cache = {
   'profiles': {}
 };
 int activeTabIndex = 2;
+// Onboarding flags, loaded from SharedPreferences alongside userData.
+// `languageChosen` gates the language-select screen (shown once, before
+// anything else, so onboarding/sign-in copy is never shown in a locale the
+// user hasn't picked). `onboardingSeen` gates the QR-code guide (shown once
+// before the first sign-in attempt; reachable again from SignIn afterwards).
+bool languageChosen = false;
+bool onboardingSeen = false;
+bool autoOpenScannerNext = false;
 final StreamController<List> updateStream = StreamController<List>();
 
 Map<String, Map<String, dynamic>> get getCache => cache;
@@ -150,6 +160,45 @@ class AppState extends State<App> {
     FlutterNativeSplash.remove();
   }
 
+  /// Decides which screen to show before the main app: language picker (once,
+  /// ever) -> QR-code onboarding guide (once, before the first sign-in
+  /// attempt) -> sign-in -> the app itself.
+  Widget getHome() {
+    if (!languageChosen) {
+      return LanguageSelect(onLanguageChosen: () {
+        setState(() {
+          languageChosen = true;
+        });
+      });
+    }
+
+    if (userData['token'] == '') {
+      if (!onboardingSeen) {
+        return QrGuide(
+          onScanNow: () {
+            markOnboardingSeen();
+            setState(() {
+              onboardingSeen = true;
+              autoOpenScannerNext = true;
+            });
+          },
+          onLater: () {
+            markOnboardingSeen();
+            setState(() {
+              onboardingSeen = true;
+              autoOpenScannerNext = false;
+            });
+          },
+        );
+      }
+      final openScanner = autoOpenScannerNext;
+      autoOpenScannerNext = false;
+      return SignIn(autoOpenScanner: openScanner);
+    }
+
+    return NoRiskClient();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isAndroid) {
@@ -176,8 +225,7 @@ class AppState extends State<App> {
               home: MediaQuery(
                 data: MediaQuery.of(context)
                     .copyWith(textScaler: const TextScaler.linear(1.0)),
-                child:
-                    userData['token'] != '' ? NoRiskClient() : const SignIn(),
+                child: getHome(),
               ),
             );
           });
@@ -202,8 +250,7 @@ class AppState extends State<App> {
                 home: MediaQuery(
                   data: MediaQuery.of(context)
                       .copyWith(textScaler: const TextScaler.linear(1.0)),
-                  child:
-                      userData['token'] != '' ? NoRiskClient() : const SignIn(),
+                  child: getHome(),
                 ));
           });
     }
@@ -215,6 +262,11 @@ class AppState extends State<App> {
     return userData['uuid'] != '' && userData['token'] != '';
   }
 
+  Future<void> markOnboardingSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingSeen', true);
+  }
+
   Future<void> loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -223,6 +275,8 @@ class AppState extends State<App> {
         'experimental': prefs.getBool('experimental') ?? false,
         'token': prefs.getString('token') ?? ''
       };
+      languageChosen = prefs.getString('language') != null;
+      onboardingSeen = prefs.getBool('onboardingSeen') ?? false;
     });
   }
 

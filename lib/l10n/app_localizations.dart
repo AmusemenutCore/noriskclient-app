@@ -610,6 +610,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no infos available at the moment.'**
   String get gamescom_no_infos;
+
+  /// No description provided for @qrGuide_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How to get your QR code'**
+  String get qrGuide_title;
+
+  /// No description provided for @qrGuide_step1.
+  ///
+  /// In en, this message translates to:
+  /// **'Download the NoRisk Client Launcher on your PC.'**
+  String get qrGuide_step1;
+
+  /// No description provided for @qrGuide_step2.
+  ///
+  /// In en, this message translates to:
+  /// **'Install it and log in with your Minecraft account.'**
+  String get qrGuide_step2;
+
+  /// No description provided for @qrGuide_step3.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the "Social Accounts" menu next to the account manager.'**
+  String get qrGuide_step3;
+
+  /// No description provided for @qrGuide_step4.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the QR code shown there with this app.'**
+  String get qrGuide_step4;
+
+  /// No description provided for @qrGuide_downloadLauncher.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Launcher'**
+  String get qrGuide_downloadLauncher;
+
+  /// No description provided for @qrGuide_scanNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR Code Now'**
+  String get qrGuide_scanNow;
+
+  /// No description provided for @qrGuide_later.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe Later'**
+  String get qrGuide_later;
+
+  /// No description provided for @qrGuide_helpLink.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I get a QR code?'**
+  String get qrGuide_helpLink;
+
+  /// No description provided for @signIn_error_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This QR code is invalid or has expired. Please generate a new one in the Launcher and try again.'**
+  String get signIn_error_invalid;
+
+  /// No description provided for @signIn_error_network.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn't reach the server. Check your internet connection and try again.'**
+  String get signIn_error_network;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

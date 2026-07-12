@@ -7,6 +7,7 @@ import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/config/Config.dart';
 import 'package:noriskclient/main.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
+import 'package:noriskclient/screens/QrGuide.dart';
 import 'package:noriskclient/utils/NoRiskApi.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 import 'package:noriskclient/widgets/NoRiskText.dart';
@@ -17,7 +18,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  const SignIn({super.key, this.autoOpenScanner = false});
+
+  /// When true, the QR scanner opens automatically once this screen mounts.
+  /// Used when the user taps "Scan QR Code Now" on the onboarding guide.
+  final bool autoOpenScanner;
 
   @override
   State<SignIn> createState() => SignInState();
@@ -25,6 +30,7 @@ class SignIn extends StatefulWidget {
 
 class SignInState extends State<SignIn> {
   bool isProcessingResult = false;
+  String? errorMessageKey;
 
   @override
   void initState() {
@@ -32,6 +38,23 @@ class SignInState extends State<SignIn> {
 
     final provider = Provider.of<LocaleProvider>(context, listen: false);
     provider.loadLocale();
+
+    if (widget.autoOpenScanner) {
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => scanQrCode());
+    }
+  }
+
+  void openQrGuide() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return QrGuide(
+        onScanNow: () {
+          Navigator.of(context).pop();
+          scanQrCode();
+        },
+        onLater: () => Navigator.of(context).pop(),
+      );
+    }));
   }
 
   @override
@@ -89,6 +112,39 @@ class SignInState extends State<SignIn> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: openQrGuide,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: NoRiskText(
+                        AppLocalizations.of(context)!
+                            .qrGuide_helpLink
+                            .toLowerCase(),
+                        spaceTop: false,
+                        spaceBottom: false,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: NoRiskClientColors.blue,
+                            decoration: TextDecoration.underline,
+                            decorationColor: NoRiskClientColors.blue),
+                      ),
+                    ),
+                  ),
+                  if (errorMessageKey != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: NoRiskText(
+                        errorMessageKey == 'network'
+                            ? AppLocalizations.of(context)!.signIn_error_network
+                            : AppLocalizations.of(context)!.signIn_error_invalid,
+                        spaceTop: false,
+                        spaceBottom: false,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 15, color: Color(0xFFE05B5B)),
+                      ),
+                    ),
                   GestureDetector(
                     onTap: scanQrCode,
                     child: Padding(
@@ -345,16 +401,27 @@ class SignInState extends State<SignIn> {
   Future<void> signIn(Map<String, dynamic> userData) async {
     setState(() {
       isProcessingResult = true;
+      errorMessageKey = null;
     });
 
-    http.Response res = await http.get(
-        Uri.parse(
-            '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/user/validateToken?uuid=${userData['uuid']}'),
-        headers: {'Authorization': 'Bearer ${userData['token']}'});
+    http.Response res;
+    try {
+      res = await http.get(
+          Uri.parse(
+              '${NoRiskApi().getBaseUrl(userData['experimental'], 'mcreal')}/user/validateToken?uuid=${userData['uuid']}'),
+          headers: {'Authorization': 'Bearer ${userData['token']}'});
+    } catch (_) {
+      setState(() {
+        isProcessingResult = false;
+        errorMessageKey = 'network';
+      });
+      return;
+    }
 
     if (res.statusCode != 200) {
       setState(() {
         isProcessingResult = false;
+        errorMessageKey = 'invalid';
       });
       return;
     }

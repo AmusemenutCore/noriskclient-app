@@ -34,6 +34,13 @@ lib/
 - Global `userData` and `cache` Maps in `main.dart` are mutated across the app and coordinated via `updateStream` (a `StreamController<List>`).
 - `BlockingManager` is a singleton with a per-user in-memory cache; call `BlockingManager().invalidate()` on sign-out (already wired in `main.dart`).
 
+## Onboarding / sign-in flow
+- Login is QR-code only: the code comes from the NoRiskClient Launcher (a separate PC download), scanned with this app — there is no email/password path.
+- First-run order: `LanguageSelect` (pick DE/EN before any other copy is shown) -> `QrGuide` (explains where to get the QR code, with "Scan Now" / "Maybe Later" — shown once) -> `SignIn`. Gating flags (`languageChosen`, `onboardingSeen`) live in `main.dart` and persist via `SharedPreferences` (`language`, `onboardingSeen` keys), following the same global-flag pattern as `userData`.
+- `SignIn` shows an inline error message on failed login (invalid/expired QR vs. network failure) instead of silently resetting, and has a permanent "How do I get a QR code?" link back into `QrGuide`.
+- The bottom nav's Gamescom tab (time-limited event placeholder, event has passed) was removed rather than left disabled; tab indices shifted down by one (You is now index 3).
+
 ## User preferences
 - Keep existing project structure and stack.
 - No placeholder or half-finished code — production-quality only.
+- App text must stay available in German and English; add new copy to both `lib/l10n/app_de.arb`/`app_en.arb` and the generated `app_localizations*.dart` files (no `flutter gen-l10n` available in this sandbox — edit generated files by hand, matching existing getter patterns).

@@ -20,4 +20,10 @@ class Config {
       'https://play.google.com/store/apps/details?id=gg.norisk.noriskclient');
   static Uri appStoreUrl =
       Uri.parse('https://apps.apple.com/de/app/norisk-client/id6661020268');
+  static Uri launcherDownloadUrl = Uri.parse('https://norisk.gg/downloads');
+
+  static const Map<String, String> languageNames = {
+    'de': 'Deutsch',
+    'en': 'English',
+  };
 }
