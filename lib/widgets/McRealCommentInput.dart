@@ -55,7 +55,7 @@ class McRealPostState extends State<McRealCommentInput> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(7.5),
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                             color: NoRiskClientColors.light, width: 2)),
                     fillColor: NoRiskClientColors.background,
                     // hintText: ,

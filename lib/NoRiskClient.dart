@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:noriskclient/main.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
+import 'package:noriskclient/provider/themeModeProvider.dart';
+import 'package:noriskclient/provider/notificationsProvider.dart';
 import 'package:noriskclient/screens/Chats.dart';
 import 'package:noriskclient/screens/McReal.dart';
 import 'package:noriskclient/screens/News.dart';
@@ -35,6 +37,8 @@ class NoRiskClientState extends State<NoRiskClient> {
     super.initState();
     final provider = Provider.of<LocaleProvider>(context, listen: false);
     provider.loadLocale();
+    Provider.of<ThemeModeProvider>(context, listen: false).loadThemeMode();
+    Provider.of<NotificationsProvider>(context, listen: false).load();
 
     activeTabIndexController.stream.listen((index) {
       updateStream.add(["tabIndex", index]);
@@ -67,15 +71,20 @@ class NoRiskClientState extends State<NoRiskClient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Stack(children: [
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
           getActiveTab(),
           Align(
-              alignment: Alignment.bottomCenter,
-              child: NoRiskBottomNavigationBar(
-                  isGuest: widget.isGuest,
-                  currentIndex: tabIndex,
-                  currentIndexController: activeTabIndexController)),
-        ]));
+            alignment: Alignment.bottomCenter,
+            child: NoRiskBottomNavigationBar(
+              isGuest: widget.isGuest,
+              currentIndex: tabIndex,
+              currentIndexController: activeTabIndexController,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -60,7 +60,7 @@ class _GiveawayAdminInfoState extends State<GiveawayAdminInfo> {
                       'Giveaway Info'.toLowerCase(),
                       spaceTop: false,
                       spaceBottom: false,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: NoRiskClientColors.text,
                           fontSize: 40,
                           fontWeight: FontWeight.bold)),

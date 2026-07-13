@@ -88,7 +88,7 @@ class McRealPostState extends State<ProfileMcRealPost> {
                           NoRiskText(getPostTime().toLowerCase(),
                               spaceTop: false,
                               spaceBottom: false,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w500,
                                   color: NoRiskClientColors.text)),
@@ -263,7 +263,7 @@ class McRealPostState extends State<ProfileMcRealPost> {
                         },
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_pin,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue)))
                   ],
                 )
@@ -321,7 +321,7 @@ class McRealPostState extends State<ProfileMcRealPost> {
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_cancel,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                     TextButton(
                         onPressed: () async {

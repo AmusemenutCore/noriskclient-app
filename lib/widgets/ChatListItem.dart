@@ -119,7 +119,7 @@ class _ChatListItemState extends State<ChatListItem> {
                           spaceTop: false,
                           spaceBottom: false,
                           textAlign: TextAlign.left,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: NoRiskClientColors.text),
@@ -129,7 +129,7 @@ class _ChatListItemState extends State<ChatListItem> {
                               spaceTop: false,
                               spaceBottom: false,
                               textAlign: TextAlign.right,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 25,
                                   color: NoRiskClientColors.text)),
                       ],
@@ -150,7 +150,7 @@ class _ChatListItemState extends State<ChatListItem> {
                         10 -
                         50, // 50 is added for padding to the right!
                     textAlign: TextAlign.left,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 20, color: NoRiskClientColors.text),
                   ),
                 ])

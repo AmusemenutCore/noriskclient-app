@@ -124,7 +124,7 @@ class McRealPostState extends State<McRealPost> {
                           AppLocalizations.of(context)!
                               .mcReal_removedPost
                               .toLowerCase(),
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 20,
                               color: NoRiskClientColors.text,
                               fontWeight: FontWeight.w500)),
@@ -134,14 +134,14 @@ class McRealPostState extends State<McRealPost> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                          const Icon(Icons.info,
+                          Icon(Icons.info,
                               color: NoRiskClientColors.blue, size: 25),
                           const SizedBox(width: 10),
                           NoRiskText(
                               AppLocalizations.of(context)!
                                   .mcReal_status_deleted
                                   .toLowerCase(),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 20,
                                   color: NoRiskClientColors.text,
                                   fontWeight: FontWeight.w500)),
@@ -280,7 +280,7 @@ class McRealPostState extends State<McRealPost> {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 2.5),
-                                                child: const Icon(
+                                                child: Icon(
                                                     CupertinoIcons.globe,
                                                     color:
                                                         NoRiskClientColors.blue,
@@ -294,7 +294,7 @@ class McRealPostState extends State<McRealPost> {
                                                       .toLowerCase(),
                                                   spaceTop: false,
                                                   spaceBottom: false,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                       fontSize: 20,
                                                       color: NoRiskClientColors
                                                           .blue,
@@ -428,7 +428,7 @@ class McRealPostState extends State<McRealPost> {
                                           textAlign: TextAlign.center,
                                           spaceTop: false,
                                           spaceBottom: false,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 20,
                                               color: NoRiskClientColors.text,
                                               fontWeight: FontWeight.w500)),
@@ -451,7 +451,7 @@ class McRealPostState extends State<McRealPost> {
                                       160,
                                   spaceTop: false,
                                   spaceBottom: false,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 22.5,
                                       color: NoRiskClientColors.text,
                                       fontWeight: FontWeight.w500)),
@@ -833,7 +833,7 @@ class McRealPostState extends State<McRealPost> {
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_cancel,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                     TextButton(
                         onPressed: () async {

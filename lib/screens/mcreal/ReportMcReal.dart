@@ -145,12 +145,12 @@ class ReportMcRealState extends State<ReportMcReal> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7.5),
                           gapPadding: 1.5,
-                          borderSide: const BorderSide(
+                          borderSide: BorderSide(
                               color: NoRiskClientColors.light, width: 2)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7.5),
                           gapPadding: 1.5,
-                          borderSide: const BorderSide(
+                          borderSide: BorderSide(
                               color: NoRiskClientColors.light, width: 2)),
                       filled: true,
                       isDense: true,

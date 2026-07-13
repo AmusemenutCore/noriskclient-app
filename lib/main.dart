@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
+import 'package:noriskclient/provider/themeModeProvider.dart';
+import 'package:noriskclient/provider/notificationsProvider.dart';
 import 'package:noriskclient/utils/BlockingManager.dart';
 import 'package:noriskclient/NoRiskClient.dart';
 import 'package:noriskclient/screens/LanguageSelect.dart';
@@ -28,14 +30,14 @@ late bool isAndroid;
 Map<String, dynamic> userData = {
   'uuid': '',
   'experimental': false,
-  'token': ''
+  'token': '',
 };
 Map<String, Map<String, dynamic>> cache = {
   'skins': {},
   'armorSkins': {},
   'usernames': {},
   'posts': {},
-  'profiles': {}
+  'profiles': {},
 };
 int activeTabIndex = 2;
 // Onboarding flags, loaded from SharedPreferences alongside userData.
@@ -72,14 +74,18 @@ class AppState extends State<App> {
   void initState() {
     removeSplashScreen();
 
-    isIOS = Theme.of(context).platform == TargetPlatform.iOS ||
+    isIOS =
+        Theme.of(context).platform == TargetPlatform.iOS ||
         Theme.of(context).platform == TargetPlatform.macOS;
-    isAndroid = Theme.of(context).platform == TargetPlatform.android ||
+    isAndroid =
+        Theme.of(context).platform == TargetPlatform.android ||
         Theme.of(context).platform == TargetPlatform.fuchsia;
 
     if (isAndroid) {
-      SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -93,7 +99,7 @@ class AppState extends State<App> {
     }
 
     super.initState();
-    
+
     loadUserData();
     updateStream.stream.listen((List data) async {
       String event = data[0];
@@ -177,11 +183,13 @@ class AppState extends State<App> {
   /// when the user explicitly opens it from guest mode's login tab.
   Widget getHome() {
     if (!languageChosen) {
-      return LanguageSelect(onLanguageChosen: () {
-        setState(() {
-          languageChosen = true;
-        });
-      });
+      return LanguageSelect(
+        onLanguageChosen: () {
+          setState(() {
+            languageChosen = true;
+          });
+        },
+      );
     }
 
     if (userData['token'] == '') {
@@ -224,57 +232,91 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     if (isAndroid) {
-      app = ChangeNotifierProvider(
-          create: (context) => LocaleProvider(),
-          builder: (context, child) {
-            final provider = Provider.of<LocaleProvider>(context);
-            return MaterialApp(
-              title: 'NoRisk Client',
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              locale: provider.locale,
-              theme: ThemeData(
-                  useMaterial3: true,
-                  brightness: Brightness.dark,
-                  appBarTheme: const AppBarTheme(
-                      backgroundColor: NoRiskClientColors.background),
-                  textTheme: Theme.of(context).textTheme.apply(
-                      fontFamily: 'SmallCapsMC',
-                      fontSizeFactor: 1.25,
-                      displayColor: Colors.white,
-                      bodyColor: Colors.white)),
-              home: MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(1.0)),
-                child: getHome(),
+      app = MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => LocaleProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeModeProvider()),
+          ChangeNotifierProvider(create: (context) => NotificationsProvider()),
+        ],
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+          // Reading ThemeModeProvider here (without using its value
+          // directly) is what makes this whole subtree rebuild when the
+          // mode changes, since NoRiskClientColors' getters are read fresh
+          // on every build but aren't themselves observable.
+          Provider.of<ThemeModeProvider>(context);
+          final isDark = NoRiskClientColors.mode == NoRiskThemeMode.dark;
+          return MaterialApp(
+            title: 'NoRisk Client',
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: provider.locale,
+            theme: ThemeData(
+              useMaterial3: true,
+              brightness: isDark ? Brightness.dark : Brightness.light,
+              scaffoldBackgroundColor: NoRiskClientColors.background,
+              appBarTheme: AppBarTheme(
+                backgroundColor: NoRiskClientColors.background,
               ),
-            );
-          });
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: NoRiskClientColors.blue,
+                brightness: isDark ? Brightness.dark : Brightness.light,
+              ),
+              textTheme: Theme.of(context).textTheme.apply(
+                fontFamily: 'SmallCapsMC',
+                fontSizeFactor: 1.25,
+                displayColor: NoRiskClientColors.text,
+                bodyColor: NoRiskClientColors.text,
+              ),
+            ),
+            home: MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: getHome(),
+            ),
+          );
+        },
+      );
     } else {
       // iOS, macOS, web, Linux, Windows
-      app = ChangeNotifierProvider(
-          create: (context) => LocaleProvider(),
-          builder: (context, child) {
-            final provider = Provider.of<LocaleProvider>(context);
-            return CupertinoApp(
-                title: 'NoRisk Client',
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                locale: provider.locale,
-                theme: const CupertinoThemeData(
-                  textTheme: CupertinoTextThemeData(
-                    textStyle: TextStyle(
-                        color: Colors.white, fontFamily: "SmallCapsMC"),
-                  ),
+      app = MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => LocaleProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeModeProvider()),
+          ChangeNotifierProvider(create: (context) => NotificationsProvider()),
+        ],
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+          Provider.of<ThemeModeProvider>(context);
+          return CupertinoApp(
+            title: 'NoRisk Client',
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: provider.locale,
+            theme: CupertinoThemeData(
+              brightness: NoRiskClientColors.mode == NoRiskThemeMode.dark
+                  ? Brightness.dark
+                  : Brightness.light,
+              scaffoldBackgroundColor: NoRiskClientColors.background,
+              textTheme: CupertinoTextThemeData(
+                textStyle: TextStyle(
+                  color: NoRiskClientColors.text,
+                  fontFamily: "SmallCapsMC",
                 ),
-                home: MediaQuery(
-                  data: MediaQuery.of(context)
-                      .copyWith(textScaler: const TextScaler.linear(1.0)),
-                  child: getHome(),
-                ));
-          });
+              ),
+            ),
+            home: MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: getHome(),
+            ),
+          );
+        },
+      );
     }
 
     return app;
@@ -295,7 +337,7 @@ class AppState extends State<App> {
       userData = {
         'uuid': prefs.getString('uuid') ?? '',
         'experimental': prefs.getBool('experimental') ?? false,
-        'token': prefs.getString('token') ?? ''
+        'token': prefs.getString('token') ?? '',
       };
       languageChosen = prefs.getString('language') != null;
       onboardingSeen = prefs.getBool('onboardingSeen') ?? false;
@@ -325,7 +367,7 @@ class AppState extends State<App> {
         'armorSkins': {},
         'usernames': {},
         'posts': {},
-        'profiles': {}
+        'profiles': {},
       };
     });
   }
@@ -334,25 +376,30 @@ class AppState extends State<App> {
     if (cache['skins']?[uuid] == null) {
       setState(() {
         cache['skins']?[uuid] = Image.network(
-            'https://mineskin.eu/helm/$uuid/64',
-            width: 32,
-            height: 32);
+          'https://mineskin.eu/helm/$uuid/64',
+          width: 32,
+          height: 32,
+        );
       });
     }
     if (cache['armorSkins']?[uuid] == null) {
       setState(() {
         cache['armorSkins']?[uuid] = Image.network(
-            'https://mineskin.eu/armor/bust/$uuid/128.png',
-            height: 175,
-            width: 175);
+          'https://mineskin.eu/armor/bust/$uuid/128.png',
+          height: 175,
+          width: 175,
+        );
       });
     }
   }
 
   Future<void> loadUsername(String uuid) async {
     if (cache['usernames']?[uuid] == null) {
-      http.Response res = await http.get(Uri.parse(
-          'https://sessionserver.mojang.com/session/minecraft/profile/$uuid'));
+      http.Response res = await http.get(
+        Uri.parse(
+          'https://sessionserver.mojang.com/session/minecraft/profile/$uuid',
+        ),
+      );
       if (res.statusCode != 200) {
         return;
       }

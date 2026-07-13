@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:noriskclient/main.dart';
@@ -42,36 +43,40 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
       borderOpacity: 200,
       child: Padding(
         padding: EdgeInsets.only(
-            bottom: isAndroid ? MediaQuery.of(context).viewPadding.bottom : 0),
+          bottom: isAndroid ? MediaQuery.of(context).viewPadding.bottom : 0,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: widget.isGuest
               ? [
                   _BottomNavigationBarButton(
-                      index: 0,
-                      currentIndex: 0,
-                      icon: NoRiskIcon.news,
-                      label: 'news',
-                      onTap: () {}),
+                    index: 0,
+                    currentIndex: 0,
+                    icon: NoRiskIcon.news,
+                    label: 'news',
+                    onTap: () {},
+                  ),
                   _BottomNavigationBarButton(
                     index: 1,
                     currentIndex: 0,
                     icon: NoRiskIcon.profile,
-                    label: AppLocalizations.of(context)!
-                        .navbar_login
-                        .toLowerCase(),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SignIn())),
+                    label: AppLocalizations.of(
+                      context,
+                    )!.navbar_login.toLowerCase(),
+                    onTap: () => Navigator.of(
+                      context,
+                    ).push(MaterialPageRoute(builder: (context) => SignIn())),
                   ),
                 ]
               : [
                   _BottomNavigationBarButton(
-                      index: 0,
-                      currentIndex: widget.currentIndex,
-                      icon: NoRiskIcon.news,
-                      label: 'news',
-                      onTap: () => widget.currentIndexController.sink.add(0)),
+                    index: 0,
+                    currentIndex: widget.currentIndex,
+                    icon: NoRiskIcon.news,
+                    label: 'news',
+                    onTap: () => widget.currentIndexController.sink.add(0),
+                  ),
                   _BottomNavigationBarButton(
                     index: 1,
                     currentIndex: widget.currentIndex,
@@ -80,23 +85,25 @@ class NoRiskBottomNavigationBarState extends State<NoRiskBottomNavigationBar> {
                     onTap: () => widget.currentIndexController.sink.add(1),
                   ),
                   _BottomNavigationBarButton(
-                      index: 2,
-                      currentIndex: widget.currentIndex,
-                      icon: NoRiskIcon.mcreal,
-                      label: 'mcreal',
-                      onTap: () => widget.currentIndexController.sink.add(2)),
+                    index: 2,
+                    currentIndex: widget.currentIndex,
+                    icon: NoRiskIcon.mcreal,
+                    label: 'mcreal',
+                    onTap: () => widget.currentIndexController.sink.add(2),
+                  ),
                   // Gamescom was a time-limited placeholder tab (event has
                   // since passed); hidden rather than shown disabled so it
                   // doesn't read as a broken tab. Re-add if there's an
                   // active event to link again.
                   _BottomNavigationBarButton(
-                      index: 3,
-                      currentIndex: widget.currentIndex,
-                      icon: NoRiskIcon.profile,
-                      label: AppLocalizations.of(context)!
-                          .navbar_you
-                          .toLowerCase(),
-                      onTap: () => widget.currentIndexController.sink.add(3)),
+                    index: 3,
+                    currentIndex: widget.currentIndex,
+                    icon: NoRiskIcon.profile,
+                    label: AppLocalizations.of(
+                      context,
+                    )!.navbar_you.toLowerCase(),
+                    onTap: () => widget.currentIndexController.sink.add(3),
+                  ),
                 ],
         ),
       ),
@@ -127,68 +134,78 @@ class _BottomNavigationBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool active = currentIndex == index;
+    void handleTap() {
+      if (disabled) return;
+      HapticFeedback.selectionClick();
+      onTap();
+    }
+
     return GestureDetector(
-      onTap: disabled ? () {} : onTap,
-            child: Stack(
-              children: [
-                // Active-tab indicator: a small accent-colored bar, clearer
-                // at a glance than the previous opacity-only distinction.
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    margin: const EdgeInsets.only(top: 2),
-                    height: 3,
-                    width: active ? 26 : 0,
-                    decoration: BoxDecoration(
-                      color: NoRiskClientColors.blue,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-                SizedBox(
-            width: 65,
-            height: 55,
-                  child: Center(
-                    child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                      child: NoRiskIconButton(
-                    onTap: disabled ? () {} : onTap,
-                          transparent: true,
-                          height: 35,
-                          width: 35,
-                    icon: Opacity(
-                        opacity: disabled
-                            ? 0.4
-                            : active
-                                ? 1
-                                : 0.75,
-                        child: icon)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-            width: 65,
-            height: 55,
-                  child: Center(
-                    child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                          child: NoRiskText(label,
-                              spaceTop: false,
-                              spaceBottom: false,
-                              style: TextStyle(
-                        fontSize: fontSize,
-                        color: disabled
-                            ? Colors.white.withAlpha((100).floor())
-                            : active
-                                      ? NoRiskClientColors.blue
-                                      : Colors.white
-                                          .withAlpha((200).floor()))),
-                        ),
-                  ),
-                ),
-              ],
+      onTap: handleTap,
+      child: Stack(
+        children: [
+          // Active-tab indicator: a small accent-colored bar, clearer
+          // at a glance than the previous opacity-only distinction.
+          Align(
+            alignment: Alignment.topCenter,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              margin: const EdgeInsets.only(top: 2),
+              height: 3,
+              width: active ? 26 : 0,
+              decoration: BoxDecoration(
+                color: NoRiskClientColors.blue,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          );
+          ),
+          SizedBox(
+            width: 65,
+            height: 55,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: NoRiskIconButton(
+                  onTap: handleTap,
+                  transparent: true,
+                  height: 35,
+                  width: 35,
+                  icon: Opacity(
+                    opacity: disabled
+                        ? 0.4
+                        : active
+                        ? 1
+                        : 0.75,
+                    child: icon,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 65,
+            height: 55,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: NoRiskText(
+                  label,
+                  spaceTop: false,
+                  spaceBottom: false,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    color: disabled
+                        ? NoRiskClientColors.text.withAlpha((100).floor())
+                        : active
+                        ? NoRiskClientColors.blue
+                        : NoRiskClientColors.text.withAlpha((200).floor()),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

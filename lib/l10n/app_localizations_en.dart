@@ -18,19 +18,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcRealComment_you => 'You';
 
   @override
-  String get mcRealProfile_notPosted => 'You have to post a McReal before you can see others.';
+  String get mcRealProfile_notPosted =>
+      'You have to post a McReal before you can see others.';
 
   @override
   String get mcRealReport_info_hint => 'Additional Information';
 
   @override
-  String get mcRealReport_reason_copyrightInfringement => 'Copyright Infringement';
+  String get mcRealReport_reason_copyrightInfringement =>
+      'Copyright Infringement';
 
   @override
   String get mcRealReport_reason_hateSpeach => 'Hate Speach';
 
   @override
-  String get mcRealReport_reason_inappropriateForMinors => 'Inappropriate For Minors';
+  String get mcRealReport_reason_inappropriateForMinors =>
+      'Inappropriate For Minors';
 
   @override
   String get mcRealReport_reason_obscenity => 'Obscenity';
@@ -66,13 +69,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcReal_comment_hint => 'New Comment';
 
   @override
-  String get mcReal_deleteCommentPopupContent => 'Are you sure you want to delete this comment?';
+  String get mcReal_deleteCommentPopupContent =>
+      'Are you sure you want to delete this comment?';
 
   @override
   String get mcReal_deleteCommentPopupTitle => 'Are you sure?';
 
   @override
-  String get mcReal_deletePostPopupContent => 'Are you sure you want to delete today\'s McReal?\nYou will not be able to post another McReal today!';
+  String get mcReal_deletePostPopupContent =>
+      'Are you sure you want to delete today\'s McReal?\nYou will not be able to post another McReal today!';
 
   @override
   String get mcReal_deletePostPopupTitle => 'Are you sure?';
@@ -93,13 +98,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcReal_noComments => 'No Comments available.';
 
   @override
-  String get mcReal_noPosts => 'Nobody has posted their McReal yet.\nStart NoRiskClient to be the first one to post!';
+  String get mcReal_noPosts =>
+      'Nobody has posted their McReal yet.\nStart NoRiskClient to be the first one to post!';
 
   @override
   String get mcReal_noPostsPlain => 'No posts available :(';
 
   @override
-  String get mcReal_pinPostPopupContent => 'Are you sure you want to pin todays McReal?';
+  String get mcReal_pinPostPopupContent =>
+      'Are you sure you want to pin todays McReal?';
 
   @override
   String get mcReal_pinPostPopupTitle => 'Are you sure?';
@@ -123,7 +130,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcReal_popup_unpin => 'Unpin';
 
   @override
-  String get mcReal_removedPost => 'Your McReal was removed.\nTap here for more information.';
+  String get mcReal_removedPost =>
+      'Your McReal was removed.\nTap here for more information.';
 
   @override
   String get mcReal_removedPostPopupTitle => 'Your McReal was removed';
@@ -138,13 +146,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcReal_status_deleted => 'You have deleted your post.';
 
   @override
-  String get mcReal_status_noPost => 'You have not yet posted your McReal of today.';
+  String get mcReal_status_noPost =>
+      'You have not yet posted your McReal of today.';
 
   @override
   String get mcReal_status_removed => 'Your McReal was removed.';
 
   @override
-  String get mcReal_unpinPostPopupContent => 'Are you sure you no longer want to pin this McReal?';
+  String get mcReal_unpinPostPopupContent =>
+      'Are you sure you no longer want to pin this McReal?';
 
   @override
   String get mcReal_unpinPostPopupTitle => 'Are you sure?';
@@ -165,10 +175,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_title => 'Settings';
 
   @override
-  String get signIn_eula => 'By signing in you agree to the terms of service and privacy policy.';
+  String get signIn_eula =>
+      'By signing in you agree to the terms of service and privacy policy.';
 
   @override
-  String get signIn_explanation => 'To sign in just scan the QR-Code from the NoRiskClient Launcher under the menu option \"Social Accounts\" next to the account manager.';
+  String get signIn_explanation =>
+      'To sign in just scan the QR-Code from the NoRiskClient Launcher under the menu option \"Social Accounts\" next to the account manager.';
 
   @override
   String get signIn_scanQrCode => 'Scan QR Code';
@@ -228,25 +240,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcReal_profile_blockUserPopupTitle => 'Are you sure?';
 
   @override
-  String get mcReal_profile_blockUserPopupContent => 'Are you sure you want to block this player?';
+  String get mcReal_profile_blockUserPopupContent =>
+      'Are you sure you want to block this player?';
 
   @override
   String get mcReal_profile_unblockUserPopupTitle => 'Are you sure?';
 
   @override
-  String get mcReal_profile_unblockUserPopupContent => 'Are you sure you want to unblock this player?';
+  String get mcReal_profile_unblockUserPopupContent =>
+      'Are you sure you want to unblock this player?';
 
   @override
   String get mcReal_profile_blockedPlayer => 'You have blocked this player.';
 
   @override
-  String get mcReal_blocked_noBlockedPlayers => 'You don\'t have any blocked players.';
+  String get mcReal_blocked_noBlockedPlayers =>
+      'You don\'t have any blocked players.';
 
   @override
   String get chat_delete_message_title => 'Delete Message';
 
   @override
-  String get chat_delete_message_content => 'Are you sure you want to delete this message?';
+  String get chat_delete_message_content =>
+      'Are you sure you want to delete this message?';
 
   @override
   String get chat_delete_message_cancel => 'Cancel';
@@ -270,13 +286,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qrGuide_title => 'How to get your QR code';
 
   @override
-  String get qrGuide_step1 => 'Download the NoRisk Client Launcher on your PC from norisk.gg/downloads.';
+  String get qrGuide_step1 =>
+      'Download the NoRisk Client Launcher on your PC from norisk.gg/downloads.';
 
   @override
-  String get qrGuide_step2 => 'Install it and log in with your Minecraft account.';
+  String get qrGuide_step2 =>
+      'Install it and log in with your Minecraft account.';
 
   @override
-  String get qrGuide_step3 => 'Open the "Social Accounts" menu next to the account manager.';
+  String get qrGuide_step3 =>
+      'Open the "Social Accounts" menu next to the account manager.';
 
   @override
   String get qrGuide_step4 => 'Scan the QR code shown there with this app.';
@@ -291,14 +310,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qrGuide_helpLink => 'How do I get a QR code?';
 
   @override
-  String get signIn_error_invalid => 'This QR code is invalid or has expired. Please generate a new one in the Launcher and try again.';
+  String get signIn_error_invalid =>
+      'This QR code is invalid or has expired. Please generate a new one in the Launcher and try again.';
 
   @override
-  String get signIn_error_network => 'Couldn\'t reach the server. Check your internet connection and try again.';
+  String get signIn_error_network =>
+      'Couldn\'t reach the server. Check your internet connection and try again.';
 
   @override
   String get signIn_continueAsGuest => 'Continue without an account';
 
   @override
   String get navbar_login => 'Login';
+
+  @override
+  String get settings_theme => 'Appearance';
+
+  @override
+  String get settings_theme_dark => 'Dark';
+
+  @override
+  String get settings_theme_light => 'Light';
+
+  @override
+  String get settings_notifications => 'Notifications';
+
+  @override
+  String get settings_notifications_push => 'Push notifications';
+
+  @override
+  String get settings_notifications_push_hint =>
+      'Get notified about new chat messages and news posts.';
 }

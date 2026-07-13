@@ -157,7 +157,7 @@ class McRealState extends State<PostDetails> {
                                               AppLocalizations.of(context)!
                                                   .mcReal_noComments.toLowerCase(),
                                               textAlign: TextAlign.center,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 30,
                                                   color:
                                                       NoRiskClientColors.text)),

@@ -64,7 +64,7 @@ class GamescomState extends State<Gamescom> {
                           spaceTop: false,
                           spaceBottom: false,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.normal,
                               height: 0.75,
@@ -76,7 +76,7 @@ class GamescomState extends State<Gamescom> {
                       spaceTop: false,
                       spaceBottom: false,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
                           color: NoRiskClientColors.text)),
@@ -120,7 +120,7 @@ class GamescomState extends State<Gamescom> {
                             spaceTop: false,
                             spaceBottom: false,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 45,
                                 fontWeight: FontWeight.bold,
                                 color: NoRiskClientColors.text)),

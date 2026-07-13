@@ -96,5 +96,11 @@
   "signIn_error_invalid": "Dieser QR-Code ist ungültig oder abgelaufen. Erstelle im Launcher einen neuen und versuche es erneut.",
   "signIn_error_network": "Server konnte nicht erreicht werden. Prüfe deine Internetverbindung und versuche es erneut.",
   "signIn_continueAsGuest": "Ohne Konto fortfahren",
-  "navbar_login": "Anmelden"
+  "navbar_login": "Anmelden",
+  "settings_theme": "Erscheinungsbild",
+  "settings_theme_dark": "Dunkel",
+  "settings_theme_light": "Hell",
+  "settings_notifications": "Benachrichtigungen",
+  "settings_notifications_push": "Push-Benachrichtigungen",
+  "settings_notifications_push_hint": "Werde \u00fcber neue Chat-Nachrichten und News-Beitr\u00e4ge informiert."
 }

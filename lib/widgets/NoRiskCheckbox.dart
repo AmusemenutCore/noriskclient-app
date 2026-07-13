@@ -48,7 +48,7 @@ class McRealPostState extends State<NoRiskCheckbox> {
           if (widget.name.isNotEmpty)
             NoRiskText(widget.name.toLowerCase(),
                 spaceTop: false,
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 25,
                     color: NoRiskClientColors.text,
                     fontWeight: FontWeight.bold)),

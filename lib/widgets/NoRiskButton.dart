@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 
 class NoRiskButton extends StatelessWidget {
-  NoRiskButton(
-      {super.key,
-      this.height,
-      this.width,
-      this.color = Colors.white,
-      required this.onTap,
-      required this.child});
+  NoRiskButton({
+    super.key,
+    this.height,
+    this.width,
+    this.color = Colors.white,
+    required this.onTap,
+    required this.child,
+  });
 
   final Widget child;
   Color color;
@@ -19,7 +21,12 @@ class NoRiskButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      // V2: every primary button gets a light haptic tick, so interactions
+      // have physical feedback instead of relying on visual state alone.
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
       child: NoRiskContainer(
         height: height,
         width: width,

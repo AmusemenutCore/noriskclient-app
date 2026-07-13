@@ -1,2 +1,4 @@
 - [BlockingManager singleton cache scoping](blocking-manager.md) — cache is keyed per user UUID; must call invalidate() on sign-out to prevent cross-account bleed.
 - [Global state architecture](global-state.md) — auth and cache live in untyped Maps + StreamController<List> in main.dart; follow-up tasks exist to replace this with typed providers.
+- [Mutable theme colors](mutable-theme-colors.md) — retrofit a dark/light toggle onto a static-const color class via static getters, not a full call-site refactor.
+- No Firebase/OneSignal Replit connector exists in this environment — true remote push notifications need the user's own Firebase project + manual FlutterFire setup; local-only notifications (flutter_local_notifications) are the fallback that needs no external account.

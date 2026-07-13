@@ -63,7 +63,7 @@ class NoRiskTextField extends StatelessWidget {
                     hintText?.toLowerCase() ?? '',
                     spaceTop: false,
                     spaceBottom: false,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: NoRiskClientColors.text,
                       fontSize: 20,
                     ),
@@ -79,7 +79,7 @@ class NoRiskTextField extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 maxLength: Config.maxCommentContentLength,
                 cursorHeight: 10,
-                style: const TextStyle(fontFamily: 'SmallCapsMC', color: NoRiskClientColors.text, fontSize: 25, height: 0.5),
+                style: TextStyle(fontFamily: 'SmallCapsMC', color: NoRiskClientColors.text, fontSize: 25, height: 0.5),
                 canRequestFocus: true,
                 onSubmitted: (value) => onSubmitted != null ? onSubmitted!(value, false) : null,
                 onEditingComplete: () => focusNode?.unfocus(),
@@ -100,7 +100,7 @@ class NoRiskTextField extends StatelessWidget {
                       child: NoRiskText('send',
                           spaceTop: false,
                           spaceBottom: false,
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: NoRiskClientColors.text, fontSize: 20)),
                     ),
                   ),

@@ -149,7 +149,7 @@ class McRealState extends State<McReal> {
                               spaceTop: false,
                               spaceBottom: false,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 20,
                                   color: NoRiskClientColors.textLight)),
                         )

@@ -145,7 +145,7 @@ class McRealPostState extends State<McRealComment> {
                                           .toLowerCase(),
                                       spaceTop: false,
                                       spaceBottom: false,
-                                style: const TextStyle(
+                                style: TextStyle(
                                           fontSize: 27.5,
                                     fontWeight: FontWeight.w500,
                                     color: NoRiskClientColors.light)),
@@ -259,7 +259,7 @@ class McRealPostState extends State<McRealComment> {
                                         .toLowerCase(),
                                     spaceTop: false,
                                     spaceBottom: true,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 30,
                                         color: NoRiskClientColors.text,
                                         fontWeight: FontWeight.w500))
@@ -468,7 +468,7 @@ class McRealPostState extends State<McRealComment> {
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_cancel,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                     TextButton(
                         onPressed: () async {

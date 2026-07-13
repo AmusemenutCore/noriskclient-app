@@ -60,7 +60,7 @@ class ChatsState extends State<Chats> {
                   spaceTop: false,
                   spaceBottom: false,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 45, fontWeight: FontWeight.bold, color: NoRiskClientColors.text)),
               chats.isEmpty
                   ? Padding(
@@ -69,7 +69,7 @@ class ChatsState extends State<Chats> {
                           spaceTop: false,
                           spaceBottom: false,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 20,
                               color: NoRiskClientColors.textLight)),
                     )

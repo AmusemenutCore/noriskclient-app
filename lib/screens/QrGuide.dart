@@ -37,7 +37,7 @@ class QrGuide extends StatelessWidget {
                   spaceTop: false,
                   spaceBottom: false,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: NoRiskClientColors.text,
                       fontSize: 28,
                       fontWeight: FontWeight.bold)),
@@ -77,7 +77,7 @@ class QrGuide extends StatelessWidget {
                     spaceTop: false,
                     spaceBottom: false,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: NoRiskClientColors.textLight, fontSize: 20),
                   ),
                 ),
@@ -123,7 +123,7 @@ class _GuideStep extends StatelessWidget {
               text,
               spaceTop: false,
               spaceBottom: false,
-              style: const TextStyle(
+              style: TextStyle(
                   color: NoRiskClientColors.text, fontSize: 18, height: 1.1),
             ),
           ),

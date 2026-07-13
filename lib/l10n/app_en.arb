@@ -96,5 +96,11 @@
   "signIn_error_invalid": "This QR code is invalid or has expired. Please generate a new one in the Launcher and try again.",
   "signIn_error_network": "Couldn't reach the server. Check your internet connection and try again.",
   "signIn_continueAsGuest": "Continue without an account",
-  "navbar_login": "Login"
+  "navbar_login": "Login",
+  "settings_theme": "Appearance",
+  "settings_theme_dark": "Dark",
+  "settings_theme_light": "Light",
+  "settings_notifications": "Notifications",
+  "settings_notifications_push": "Push notifications",
+  "settings_notifications_push_hint": "Get notified about new chat messages and news posts."
 }

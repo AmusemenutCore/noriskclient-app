@@ -62,7 +62,7 @@ class BlockedState extends State<Blocked> {
                             .toLowerCase(),
                         spaceTop: false,
                         spaceBottom: false,
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: NoRiskClientColors.text,
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
@@ -130,7 +130,7 @@ class BlockedState extends State<Blocked> {
                                                     'Unknown'.toString(),
                                                 spaceTop: false,
                                                 spaceBottom: false,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                     color:
                                                         NoRiskClientColors.text,
                                                     fontSize: 30,
@@ -201,7 +201,7 @@ class BlockedState extends State<Blocked> {
                         },
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_yes,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                   ],
                 )

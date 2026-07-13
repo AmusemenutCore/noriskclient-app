@@ -149,7 +149,7 @@ class ProfileState extends State<Profile> {
                                   spaceTop: false,
                                   spaceBottom: false,
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 30,
                                       color: NoRiskClientColors.text,
                                       fontWeight: FontWeight.bold)),
@@ -179,7 +179,7 @@ class ProfileState extends State<Profile> {
                                     spaceTop: false,
                                     spaceBottom: false,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 25,
                                         color: NoRiskClientColors.blue)),
                             ]),
@@ -408,7 +408,7 @@ class ProfileState extends State<Profile> {
                         },
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_yes,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                   ],
                 )
@@ -463,7 +463,7 @@ class ProfileState extends State<Profile> {
                         },
                         child: Text(
                             AppLocalizations.of(context)!.mcReal_popup_yes,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                   ],
                 )

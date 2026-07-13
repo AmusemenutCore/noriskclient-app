@@ -72,7 +72,7 @@ class MessageState extends State<Message> {
                           widget.content,
                           spaceTop: false,
                           spaceBottom: false,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: NoRiskClientColors.text,
                             fontSize: 20,
                           ),
@@ -276,7 +276,7 @@ class MessageState extends State<Message> {
                                 .chat_delete_message_cancel,
                             spaceTop: false,
                             spaceBottom: false,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.blue))),
                     TextButton(
                         onPressed: () {

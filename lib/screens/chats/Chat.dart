@@ -133,7 +133,7 @@ class ChatState extends State<Chat> {
                                 '',
                             spaceTop: false,
                             spaceBottom: false,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: NoRiskClientColors.text,
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold)),
@@ -176,7 +176,7 @@ class ChatState extends State<Chat> {
                                   spaceTop: false,
                                   spaceBottom: false,
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 20,
                                       color: NoRiskClientColors.textLight)),
                             )
