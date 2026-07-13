@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/provider/notificationsProvider.dart';
 import 'package:noriskclient/utils/NoRiskApi.dart';
-import 'package:noriskclient/utils/NotificationService.dart';
 import 'package:noriskclient/widgets/NewsPost.dart';
 import 'package:noriskclient/widgets/NoRiskText.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class News extends StatefulWidget {
@@ -19,7 +16,6 @@ class News extends StatefulWidget {
 class _NewsState extends State<News> {
   List<Widget> news = [];
   bool isShowingCachedData = false;
-  bool isFirstLoad = true;
 
   @override
   void initState() {
@@ -86,11 +82,6 @@ class _NewsState extends State<News> {
       return;
     }
 
-    if (!usedCache && !isFirstLoad) {
-      await _notifyIfNewPost(posts);
-    }
-    isFirstLoad = false;
-
     List<Widget> newsPosts = [];
     for (int i = 0; i < posts.length; i++) {
       final post = posts[i];
@@ -151,33 +142,5 @@ class _NewsState extends State<News> {
     } catch (_) {
       return null;
     }
-  }
-
-  /// Fires a local notification when the newest post differs from the one
-  /// we last saw, but only when the "push notifications" toggle in Settings
-  /// is on. Runs off the same fetch News already does, so it needs no new
-  /// backend/API surface.
-  Future<void> _notifyIfNewPost(List<dynamic> posts) async {
-    if (posts.isEmpty || !mounted) return;
-    final notifications = Provider.of<NotificationsProvider>(
-      context,
-      listen: false,
-    );
-    if (!notifications.enabled) return;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final newestLink = posts.first['link']?.toString();
-    if (newestLink == null) return;
-    final lastSeenLink = prefs.getString('newsLastSeenLink');
-
-    if (lastSeenLink != null && lastSeenLink != newestLink) {
-      final title = posts.first['title']?['rendered']?.toString() ?? '';
-      await NotificationService().show(
-        id: 1,
-        title: 'NoRisk News',
-        body: title,
-      );
-    }
-    await prefs.setString('newsLastSeenLink', newestLink);
   }
 }

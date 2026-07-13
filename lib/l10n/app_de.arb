@@ -99,8 +99,5 @@
   "navbar_login": "Anmelden",
   "settings_theme": "Erscheinungsbild",
   "settings_theme_dark": "Dunkel",
-  "settings_theme_light": "Hell",
-  "settings_notifications": "Benachrichtigungen",
-  "settings_notifications_push": "Push-Benachrichtigungen",
-  "settings_notifications_push_hint": "Werde \u00fcber neue Chat-Nachrichten und News-Beitr\u00e4ge informiert."
+  "settings_theme_light": "Hell"
 }

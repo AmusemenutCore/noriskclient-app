@@ -8,7 +8,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
 import 'package:noriskclient/provider/themeModeProvider.dart';
-import 'package:noriskclient/provider/notificationsProvider.dart';
 import 'package:noriskclient/utils/BlockingManager.dart';
 import 'package:noriskclient/NoRiskClient.dart';
 import 'package:noriskclient/screens/LanguageSelect.dart';
@@ -236,7 +235,6 @@ class AppState extends State<App> {
         providers: [
           ChangeNotifierProvider(create: (context) => LocaleProvider()),
           ChangeNotifierProvider(create: (context) => ThemeModeProvider()),
-          ChangeNotifierProvider(create: (context) => NotificationsProvider()),
         ],
         builder: (context, child) {
           final provider = Provider.of<LocaleProvider>(context);
@@ -285,7 +283,6 @@ class AppState extends State<App> {
         providers: [
           ChangeNotifierProvider(create: (context) => LocaleProvider()),
           ChangeNotifierProvider(create: (context) => ThemeModeProvider()),
-          ChangeNotifierProvider(create: (context) => NotificationsProvider()),
         ],
         builder: (context, child) {
           final provider = Provider.of<LocaleProvider>(context);

@@ -4,8 +4,8 @@ Flutter mobile app (v2.0.7) for the NoRisk Client Minecraft community — featur
 
 ## Stack
 - **Language**: Dart / Flutter 3.x
-- **State management**: `provider` (locale, theme mode, notifications toggle), global Maps + StreamController (auth/cache)
-- **Key dependencies**: `mobile_scanner`, `shared_preferences`, `http`, `flutter_localizations`, `vibration`, `url_launcher`, `package_info_plus`, `fluttertoast`, `flutter_local_notifications`
+- **State management**: `provider` (locale, theme mode), global Maps + StreamController (auth/cache)
+- **Key dependencies**: `mobile_scanner`, `shared_preferences`, `http`, `flutter_localizations`, `vibration`, `url_launcher`, `package_info_plus`, `fluttertoast`
 
 ## Running locally
 ```bash
@@ -21,7 +21,7 @@ Targets: Android, iOS (primary). Also compiles for Linux, macOS, Windows, Web (w
 lib/
   config/           # Colors (theme-aware palette), Config constants
   l10n/             # Localisation (DE, EN)
-  provider/         # LocaleProvider, ThemeModeProvider, NotificationsProvider (ChangeNotifier)
+  provider/         # LocaleProvider, ThemeModeProvider (ChangeNotifier)
   screens/          # Full-screen views (McReal, Chat, News, Profile, Settings, SignIn …)
   utils/            # BlockingManager, NoRiskApi, NoRiskIcon, …
   widgets/          # Shared reusable widgets (McRealPost, NoRiskButton, …)
@@ -34,11 +34,12 @@ lib/
 - Global `userData` and `cache` Maps in `main.dart` are mutated across the app and coordinated via `updateStream` (a `StreamController<List>`).
 - `BlockingManager` is a singleton with a per-user in-memory cache; call `BlockingManager().invalidate()` on sign-out (already wired in `main.dart`).
 
-## V2 visual rework (theme, haptics, notifications, offline)
+## V2 visual rework (theme, haptics, offline)
 - `NoRiskClientColors` (config/Colors.dart) exposes the palette as **static getters**, not const fields, keyed off a private `_mode`. This means every one of the ~160 existing `NoRiskClientColors.xyz` call sites kept working unchanged, but any usage inside a `const` constructor had to lose its `const` (colors are no longer compile-time constants). If you add new `const TextStyle(...)`/`BoxDecoration(...)` etc. that reference `NoRiskClientColors`, drop the `const` or it won't compile.
 - `ThemeModeProvider` (mirrors `LocaleProvider`) calls `NoRiskClientColors.setMode()` + persists to `SharedPreferences` (`themeMode`), then `notifyListeners()`. `main.dart` reads it via `Provider.of<ThemeModeProvider>(context)` (value unused, just to subscribe) to force `MaterialApp`/`CupertinoApp` to rebuild with the new palette — same "mutate global state, force rebuild" pattern as locale/userData.
 - `NoRiskContainer`'s untinted default now tints from `NoRiskClientColors.text` (white in dark mode, near-black in light mode) instead of a hardcoded `Colors.white`, so the "glass panel" look keeps contrast against the surface in both themes.
-- Local (not remote) push notifications: `NotificationService` wraps `flutter_local_notifications`; `NotificationsProvider` owns the Settings toggle + permission request. `News.dart` compares the newest post link against a persisted `newsLastSeenLink` after each successful fetch and fires a local notification when it changes, and also caches the last successful post list (`newsCache`) so a failed fetch still shows the last known posts (with a "no connection" hint) instead of an empty screen. **This cannot wake the app from fully killed state** — true remote push needs a Firebase (or similar) project, which has no Replit connector and needs the user's own Firebase console setup; not implemented.
+- News.dart caches the last successful post list (`newsCache`) so a failed fetch still shows the last known posts (with a "no connection" hint) instead of an empty screen.
+- Push notifications were prototyped as local-only (`flutter_local_notifications`) but were removed at the user's request — not part of the shipped feature set. True remote push (waking a killed app) would need the user's own Firebase project; no Replit connector exists for it.
 - This environment's installed Dart SDK (3.8.0) is older than what `package_info_plus ^10.0.0` requires (`>=3.10.0`), so `flutter pub get`/`flutter run` cannot be fully verified here — this predates the V2 work. Rely on `dart format --set-exit-if-changed` for syntax checks; the user needs to verify builds on their own machine.
 
 ## Onboarding / sign-in flow

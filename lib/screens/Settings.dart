@@ -6,7 +6,6 @@ import 'package:noriskclient/main.dart';
 import 'package:noriskclient/config/Config.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
 import 'package:noriskclient/provider/themeModeProvider.dart';
-import 'package:noriskclient/provider/notificationsProvider.dart';
 import 'package:noriskclient/screens/ScanQRCode.dart';
 import 'package:noriskclient/screens/settings/Blocked.dart';
 import 'package:noriskclient/widgets/NoRiskBackButton.dart';
@@ -235,78 +234,6 @@ class SettingsState extends State<Settings> {
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(width: 5),
-                      NoRiskText(
-                        AppLocalizations.of(
-                          context,
-                        )!.settings_notifications.toLowerCase(),
-                        spaceTop: false,
-                        spaceBottom: false,
-                        style: TextStyle(
-                          color: NoRiskClientColors.text,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  GestureDetector(
-                    onTap: () => Provider.of<NotificationsProvider>(
-                      context,
-                      listen: false,
-                    ).toggle(),
-                    child: NoRiskContainer(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: NoRiskText(
-                              AppLocalizations.of(
-                                context,
-                              )!.settings_notifications_push.toLowerCase(),
-                              spaceTop: false,
-                              spaceBottom: false,
-                              style: TextStyle(
-                                color: NoRiskClientColors.text,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Consumer<NotificationsProvider>(
-                            builder: (context, notifications, _) => Switch(
-                              value: notifications.enabled,
-                              activeColor: NoRiskClientColors.blue,
-                              onChanged: (_) => notifications.toggle(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 4),
-                    child: NoRiskText(
-                      AppLocalizations.of(
-                        context,
-                      )!.settings_notifications_push_hint.toLowerCase(),
-                      spaceTop: false,
-                      spaceBottom: false,
-                      style: TextStyle(
-                        color: NoRiskClientColors.textLight,
-                        fontSize: 17,
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 20),
                   Row(

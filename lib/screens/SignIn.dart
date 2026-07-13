@@ -8,7 +8,6 @@ import 'package:noriskclient/config/Config.dart';
 import 'package:noriskclient/main.dart';
 import 'package:noriskclient/provider/localeProvider.dart';
 import 'package:noriskclient/provider/themeModeProvider.dart';
-import 'package:noriskclient/provider/notificationsProvider.dart';
 import 'package:noriskclient/screens/QrGuide.dart';
 import 'package:noriskclient/utils/NoRiskApi.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
@@ -51,7 +50,6 @@ class SignInState extends State<SignIn> {
     final provider = Provider.of<LocaleProvider>(context, listen: false);
     provider.loadLocale();
     Provider.of<ThemeModeProvider>(context, listen: false).loadThemeMode();
-    Provider.of<NotificationsProvider>(context, listen: false).load();
 
     if (widget.autoOpenScanner) {
       WidgetsBinding.instance.addPostFrameCallback((_) => scanQrCode());

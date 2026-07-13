@@ -703,24 +703,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get settings_theme_light;
-
-  /// No description provided for @settings_notifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get settings_notifications;
-
-  /// No description provided for @settings_notifications_push.
-  ///
-  /// In en, this message translates to:
-  /// **'Push notifications'**
-  String get settings_notifications_push;
-
-  /// No description provided for @settings_notifications_push_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Get notified about new chat messages and news posts.'**
-  String get settings_notifications_push_hint;
 }
 
 class _AppLocalizationsDelegate

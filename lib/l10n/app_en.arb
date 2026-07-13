@@ -99,8 +99,5 @@
   "navbar_login": "Login",
   "settings_theme": "Appearance",
   "settings_theme_dark": "Dark",
-  "settings_theme_light": "Light",
-  "settings_notifications": "Notifications",
-  "settings_notifications_push": "Push notifications",
-  "settings_notifications_push_hint": "Get notified about new chat messages and news posts."
+  "settings_theme_light": "Light"
 }

@@ -331,14 +331,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_theme_light => 'Light';
-
-  @override
-  String get settings_notifications => 'Notifications';
-
-  @override
-  String get settings_notifications_push => 'Push notifications';
-
-  @override
-  String get settings_notifications_push_hint =>
-      'Get notified about new chat messages and news posts.';
 }
