@@ -4,7 +4,6 @@ import 'package:noriskclient/config/Colors.dart';
 import 'package:noriskclient/config/Config.dart';
 import 'package:noriskclient/main.dart';
 import 'package:noriskclient/utils/NoRiskApi.dart';
-import 'package:noriskclient/utils/NoRiskIcon.dart';
 import 'package:noriskclient/utils/ReportTypes.dart';
 import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:noriskclient/widgets/NoRiskBackButton.dart';

@@ -23,7 +23,6 @@ import 'package:noriskclient/widgets/NoRiskButton.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
 import 'package:noriskclient/widgets/NoRiskIconButton.dart';
 import 'package:noriskclient/widgets/NoRiskText.dart';
-import 'package:noriskclient/utils/StringUtils.dart';
 
 class McRealPost extends StatefulWidget {
   const McRealPost(

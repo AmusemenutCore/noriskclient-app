@@ -121,255 +121,245 @@ class ProfileState extends State<Profile> {
                     repeat: ImageRepeat.repeat)
                 : null,
           ),
-          child: Padding(
+            child: Padding(
               padding: const EdgeInsets.all(15),
-              child: Stack(
+              child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Stack(
+                  if (!widget.isSettings)
+                  NoRiskBackButton(
+                    onPressed: () => Navigator.of(context).pop()),
+                  if (widget.isSettings) const SizedBox(width: 30),
+                  Expanded(
+                  child: Column(children: [
+                    NoRiskText(
+                      (widget.uuid == userData['uuid']
+                          ? AppLocalizations.of(context)!
+                            .profile_yourProfile
+                          : (cache['usernames']?[widget.uuid] ??
+                            'Unknown'))
+                        .toString()
+                        .toLowerCase(),
+                      spaceTop: false,
+                      spaceBottom: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: NoRiskClientColors.text,
+                        fontWeight: FontWeight.bold)),
+                    if (cache['profiles']?[widget.uuid] != null &&
+                      cache['profiles']![widget.uuid]['nrcUser']
+                          ['noRiskPlusExpirationDate'] !=
+                        null &&
+                      cache['profiles']![widget.uuid]['nrcUser']
+                          ['noRiskPlusExpirationDate'] >
+                        0 &&
+                      cache['profiles']![widget.uuid]['nrcUser']
+                        ['additionalNameTag']['isEnabled'])
+                    NoRiskText(
+                      (cache['profiles']![widget.uuid]['nrcUser']
+                            ['additionalNameTag']['text'] ??
+                          'Unknown')
+                        .toLowerCase()
+                        .replaceAll(
+                          RegExp(r'[§&][0-9A-FK-OR]',
+                            caseSensitive: false),
+                          ''),
+                      maxLength:
+                        MediaQuery.of(context).size.width -
+                          2 * 15 -
+                          2 * 30 -
+                          2 * 15,
+                      spaceTop: false,
+                      spaceBottom: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: NoRiskClientColors.blue)),
+                  ]),
+                  ),
+                  if (blocked != null)
+                  NoRiskContainer(
+                    child: GestureDetector(
+                      onTap: blocked! ? unblock : block,
+                      onLongPress: () => Fluttertoast.showToast(
+                        msg:
+                          "${blocked == false ? 'Block' : 'Unblock'} ${cache['usernames']?[widget.uuid] ?? 'Unknown'}"),
+                      child: SizedBox(
+                        height: 26.5,
+                        width: 26.5,
+                        child: Center(
+                          child: Icon(
+                            blocked == false
+                              ? Icons.block
+                              : Icons.handshake,
+                            color: blocked == false
+                              ? Colors.red
+                              : Colors.green,
+                            size: 20),
+                        )))),
+                  if (widget.isSettings)
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                          Settings())),
+                    child: NoRiskContainer(
+                      child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: Center(child: NoRiskIcon.settings),
+                    ))),
+                  if (!widget.isSettings && blocked == null)
+                  const SizedBox(width: 30),
+                ],
+                ),
+                const SizedBox(height: 8),
+                Center(
+                  child: cache['armorSkins']?[widget.uuid] != null
+                    ? GestureDetector(
+                      child: cache['armorSkins']?[widget.uuid],
+                      onTap: toggleEasteregg)
+                    : const SizedBox()),
+                const SizedBox(height: 12),
+                Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => loadPinnedPosts(null, null),
+                  child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(children: [
-                        const SizedBox(height: 65),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            if (!widget.isSettings)
-                              NoRiskBackButton(
-                                  onPressed: () => Navigator.of(context).pop()),
-                            if (widget.isSettings) const SizedBox(width: 30),
-                            Column(children: [
-                              NoRiskText(
-                                  (widget.uuid == userData['uuid']
-                                          ? AppLocalizations.of(context)!
-                                              .profile_yourProfile
-                                          : (cache['usernames']?[widget.uuid] ??
-                                              'Unknown'))
-                                      .toString()
-                                      .toLowerCase(),
-                                  spaceTop: false,
-                                  spaceBottom: false,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      color: NoRiskClientColors.text,
-                                      fontWeight: FontWeight.bold)),
-                              if (cache['profiles']?[widget.uuid] != null &&
-                                  cache['profiles']![widget.uuid]['nrcUser']
-                                          ['noRiskPlusExpirationDate'] !=
-                                      null &&
-                                  cache['profiles']![widget.uuid]['nrcUser']
-                                          ['noRiskPlusExpirationDate'] >
-                                      0 &&
-                                  cache['profiles']![widget.uuid]['nrcUser']
-                                      ['additionalNameTag']['isEnabled'])
-                                NoRiskText(
-                                    (cache['profiles']![widget.uuid]['nrcUser']
-                                                ['additionalNameTag']['text'] ??
-                                            'Unknown')
-                                        .toLowerCase()
-                                        .replaceAll(
-                                            RegExp(r'[§&][0-9A-FK-OR]',
-                                                caseSensitive: false),
-                                            ''),
-                                    maxLength:
-                                        MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 30 -
-                                            2 * 15,
-                                    spaceTop: false,
-                                    spaceBottom: false,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: NoRiskClientColors.blue)),
-                            ]),
-                            if (blocked != null)
-                              NoRiskContainer(
-                                  child: GestureDetector(
-                                      onTap: blocked! ? unblock : block,
-                                      onLongPress: () => Fluttertoast.showToast(
-                                          msg:
-                                              "${blocked == false ? 'Block' : 'Unblock'} ${cache['usernames']?[widget.uuid] ?? 'Unknown'}"),
-                                      child: SizedBox(
-                                          height: 26.5,
-                                          width: 26.5,
-                                          child: Center(
-                                            child: Icon(
-                                                blocked == false
-                                                    ? Icons.block
-                                                    : Icons.handshake,
-                                                color: blocked == false
-                                                    ? Colors.red
-                                                    : Colors.green,
-                                                size: 20),
-                                          )))),
-                            if (widget.isSettings)
-                              GestureDetector(
-                                  onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              Settings())),
-                                  child: NoRiskContainer(
-                                      child: SizedBox(
-                                    height: 30,
-                                    width: 30,
-                                    child: Center(child: NoRiskIcon.settings),
-                                  ))),
-                            if (!widget.isSettings && blocked == null)
-                              const SizedBox(width: 30),
-                          ],
-                        ),
-                        Center(
-                            child: cache['armorSkins']?[widget.uuid] != null
-                                ? GestureDetector(
-                                    child: cache['armorSkins']?[widget.uuid],
-                                    onTap: toggleEasteregg)
-                                : const SizedBox()),
-                      ]),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 275),
-                        child: RefreshIndicator(
-                          onRefresh: () => loadPinnedPosts(null, null),
-                          child: ListView(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                NoRiskProfileStatisticContainer(
-                                  width: (MediaQuery.of(context).size.width -
-                                          2 * 15 -
-                                          1 * 10) /
-                                      2,
-                                  title: AppLocalizations.of(context)!
-                                      .profile_stats_firstJoin,
-                                  value: DateTime.fromMillisecondsSinceEpoch(
-                                          cache['profiles']?[widget.uuid]
-                                                  ?['firstJoinTimeStamp'] ??
-                                              0)
-                                      .toIso8601String()
-                                      .toString()
-                                      .split('T')[0]
-                                      .replaceAll("-", ".")
-                                      .split(".")
-                                      .reversed
-                                      .join("."),
-                                ),
-                                const SizedBox(width: 10),
-                                NoRiskProfileStatisticContainer(
-                                  width: (MediaQuery.of(context).size.width -
-                                          2 * 15 -
-                                          1 * 10) /
-                                      2,
-                                  title: AppLocalizations.of(context)!
-                                      .profile_stats_lastJoin,
-                                  value: DateTime.fromMillisecondsSinceEpoch(
-                                          cache['profiles']?[widget.uuid]
-                                                  ?['lastJoinTimeStamp'] ??
-                                              0)
-                                      .toIso8601String()
-                                      .toString()
-                                      .split('T')[0]
-                                      .replaceAll("-", ".")
-                                      .split(".")
-                                      .reversed
-                                      .join("."),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  NoRiskProfileStatisticContainer(
-                                    width: (MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 10) /
-                                        3,
-                                    title: AppLocalizations.of(context)!
-                                        .profile_stats_loginStreak,
-                                    value: cache['profiles']?[widget.uuid]
-                                                    ?['nrcUser']['loginStreak']
-                                                ['days']
-                                            .toString() ??
-                                        '?',
-                                  ),
-                                  const SizedBox(width: 10),
-                                  NoRiskProfileStatisticContainer(
-                                    width: (MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 10) /
-                                        3,
-                                    title: AppLocalizations.of(context)!
-                                        .profile_stats_mcReal,
-                                    value: cache['profiles']?[widget.uuid]
-                                                ?['mcRealStreak']['days']
-                                            .toString() ??
-                                        '?',
-                                  ),
-                                  const SizedBox(width: 10),
-                                  NoRiskProfileStatisticContainer(
-                                    width: (MediaQuery.of(context).size.width -
-                                            2 * 15 -
-                                            2 * 10) /
-                                        3,
-                                    title: AppLocalizations.of(context)!
-                                        .profile_stats_playtime,
-                                    value: Duration(
-                                                    milliseconds: cache[
-                                                                    'profiles']
-                                                                ?[widget.uuid]
-                                                            ?['playTime'] ??
-                                                        0)
-                                                .inDays >
-                                            0
-                                        ? '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inDays}d'
-                                        : '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inHours}h',
-                                  ),
-                                ]),
-                            const SizedBox(height: 15),
-                            if (!noPinns && blocked != true)
-                              Column(children: [
-                                ...pinns!,
-                                const SizedBox(height: 50)
-                              ]),
-                            if (noPinns || blocked == true)
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                500,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Center(
-                                                child: NoRiskText(
-                                                    blocked == true
-                                                        ? AppLocalizations.of(
-                                                                context)!
-                                                            .mcReal_profile_blockedPlayer
-                                                            .toLowerCase()
-                                                        : (cache['usernames']?[
-                                                                        widget
-                                                                            .uuid] ??
-                                                                    'Unknown')
-                                                                .toLowerCase() +
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .profile_noPinnedPosts,
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.red))),
-                                          )
-                          ]),
-                        ),
+                      NoRiskProfileStatisticContainer(
+                      width: (MediaQuery.of(context).size.width -
+                          2 * 15 -
+                          1 * 10) /
+                        2,
+                      title: AppLocalizations.of(context)!
+                        .profile_stats_firstJoin,
+                      value: DateTime.fromMillisecondsSinceEpoch(
+                          cache['profiles']?[widget.uuid]
+                              ?['firstJoinTimeStamp'] ??
+                            0)
+                        .toIso8601String()
+                        .toString()
+                        .split('T')[0]
+                        .replaceAll("-", ".")
+                        .split(".")
+                        .reversed
+                        .join("."),
+                      ),
+                      const SizedBox(width: 10),
+                      NoRiskProfileStatisticContainer(
+                      width: (MediaQuery.of(context).size.width -
+                          2 * 15 -
+                          1 * 10) /
+                        2,
+                      title: AppLocalizations.of(context)!
+                        .profile_stats_lastJoin,
+                      value: DateTime.fromMillisecondsSinceEpoch(
+                          cache['profiles']?[widget.uuid]
+                              ?['lastJoinTimeStamp'] ??
+                            0)
+                        .toIso8601String()
+                        .toString()
+                        .split('T')[0]
+                        .replaceAll("-", ".")
+                        .split(".")
+                        .reversed
+                        .join("."),
                       ),
                     ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                      NoRiskProfileStatisticContainer(
+                        width: (MediaQuery.of(context).size.width -
+                            2 * 15 -
+                            2 * 10) /
+                          3,
+                        title: AppLocalizations.of(context)!
+                          .profile_stats_loginStreak,
+                        value: cache['profiles']?[widget.uuid]
+                                ?['nrcUser']['loginStreak']
+                              ['days']
+                            .toString() ??
+                          '?',
+                      ),
+                      const SizedBox(width: 10),
+                      NoRiskProfileStatisticContainer(
+                        width: (MediaQuery.of(context).size.width -
+                            2 * 15 -
+                            2 * 10) /
+                          3,
+                        title: AppLocalizations.of(context)!
+                          .profile_stats_mcReal,
+                        value: cache['profiles']?[widget.uuid]
+                              ?['mcRealStreak']['days']
+                            .toString() ??
+                          '?',
+                      ),
+                      const SizedBox(width: 10),
+                      NoRiskProfileStatisticContainer(
+                        width: (MediaQuery.of(context).size.width -
+                            2 * 15 -
+                            2 * 10) /
+                          3,
+                        title: AppLocalizations.of(context)!
+                          .profile_stats_playtime,
+                        value: Duration(
+                                milliseconds: cache[
+                                        'profiles']
+                                      ?[widget.uuid]
+                                    ?['playTime'] ??
+                                  0)
+                              .inDays >
+                            0
+                          ? '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inDays}d'
+                          : '${Duration(milliseconds: cache['profiles']?[widget.uuid]?['playTime'] ?? 0).inHours}h',
+                      ),
+                      ]),
+                    const SizedBox(height: 15),
+                    if (!noPinns && blocked != true)
+                    Column(children: [
+                      ...pinns!,
+                      const SizedBox(height: 50)
+                    ]),
+                    if (noPinns || blocked == true)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height - 300,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: NoRiskText(
+                          blocked == true
+                            ? AppLocalizations.of(context)!
+                              .mcReal_profile_blockedPlayer
+                              .toLowerCase()
+                            : (cache['usernames']?[widget.uuid] ??
+                                  'Unknown')
+                                .toLowerCase() +
+                              AppLocalizations.of(context)!
+                                .profile_noPinnedPosts,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red))),
+                    )
+                  ],
                   ),
-                ],
+                ),
+                ),
+              ],
               )),
         ));
   }

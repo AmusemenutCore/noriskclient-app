@@ -18,8 +18,7 @@ class NoRiskTextField extends StatelessWidget {
   final double width;
   final Function(String, bool)? onSubmitted;
 
-  const NoRiskTextField({
-    Key? key,
+  const NoRiskTextField({super.key, 
     required this.controller,
     required this.width,
     this.focusNode,
@@ -76,7 +75,7 @@ class NoRiskTextField extends StatelessWidget {
                 maxLines: 5,
                 controller: controller,
                 focusNode: focusNode,
-                keyboardType: TextInputType.text,
+                keyboardType: keyboardType ?? TextInputType.text,
                 maxLength: Config.maxCommentContentLength,
                 cursorHeight: 10,
                 style: TextStyle(fontFamily: 'SmallCapsMC', color: NoRiskClientColors.text, fontSize: 25, height: 0.5),

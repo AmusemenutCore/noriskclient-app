@@ -154,12 +154,12 @@ class BlockedState extends State<Blocked> {
   }
 
   void loadBlockedPlayers() async {
-    List<String> _blockedPlayers = await BlockingManager().getBlocked();
+    List<String> blockedPlayers = await BlockingManager().getBlocked();
     setState(() {
-      blockedPlayers = _blockedPlayers;
+      blockedPlayers = blockedPlayers;
     });
 
-    for (String uuid in _blockedPlayers) {
+    for (String uuid in blockedPlayers) {
       getUpdateStream.sink.add([
         'loadSkin',
         uuid,

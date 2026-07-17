@@ -5,7 +5,7 @@ import 'package:noriskclient/widgets/NoRiskText.dart';
 class NoRiskBackButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
-  const NoRiskBackButton({Key? key, this.onPressed}) : super(key: key);
+  const NoRiskBackButton({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

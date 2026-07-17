@@ -7,30 +7,20 @@ class NoRiskContainer extends Container {
   // instead of relying purely on a translucent border to separate a card
   // from the background.
   NoRiskContainer({
-    Key? key,
-    double? width,
-    double? height,
+    super.key,
+    super.width,
+    super.height,
     Color? color,
     int? backgroundOpacity,
     int? borderOpacity,
-    AlignmentGeometry? alignment,
-    EdgeInsetsGeometry? padding,
-    BoxConstraints? constraints,
+    super.alignment,
+    super.padding,
+    super.constraints,
     Decoration? decoration,
     BorderRadius? borderRadius,
     bool elevated = false,
-    Widget? child,
+    super.child,
   }) : super(
-         key: key,
-         width: width,
-         height: height,
-         alignment: alignment,
-         padding: padding,
-         constraints: constraints,
-         // Default tint follows `text` (white in dark mode, near-black in
-         // light mode) so the untinted "glass" look still reads as a
-         // lighter/darker card against the surface in either theme,
-         // instead of washing out to near-invisible in light mode.
          decoration:
              decoration ??
              BoxDecoration(
@@ -62,6 +52,5 @@ class NoRiskContainer extends Container {
                      ]
                    : null,
              ),
-         child: child,
        );
 }

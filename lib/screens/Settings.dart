@@ -616,9 +616,9 @@ class SettingsState extends State<Settings> {
   }
 
   void loadAppInfo() async {
-    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
-      packageInfo = _packageInfo;
+      packageInfo = packageInfo;
     });
   }
 }

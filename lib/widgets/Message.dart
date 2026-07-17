@@ -91,7 +91,7 @@ class MessageState extends State<Message> {
                     Container(
                       width: MediaQuery.of(context).size.width - 2 * 15,
                       color: isSelected
-                          ? NoRiskClientColors.blue.withOpacity(0.25)
+                          ? NoRiskClientColors.blue.withValues(alpha: 0.25)
                           : Colors.transparent,
                       child: Row(
                         children: [
@@ -118,7 +118,7 @@ class MessageState extends State<Message> {
                               constraints: BoxConstraints(
                                   maxWidth: MediaQuery.of(context).size.width * 0.7, minHeight: 30, minWidth: 50),
                               color: isPressed
-                                  ? NoRiskClientColors.light.withOpacity(0.75)
+                                  ? NoRiskClientColors.light.withValues(alpha: 0.75)
                                   : isSelected
                                       ? NoRiskClientColors.blue
                                       : null,
