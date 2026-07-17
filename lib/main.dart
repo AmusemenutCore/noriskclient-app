@@ -38,7 +38,7 @@ Map<String, Map<String, dynamic>> cache = {
   'posts': {},
   'profiles': {},
 };
-int activeTabIndex = 2;
+int activeTabIndex = 0;
 // Onboarding flags, loaded from SharedPreferences alongside userData.
 // `languageChosen` gates the language-select screen (shown once, before
 // anything else, so onboarding/sign-in copy is never shown in a locale the
@@ -114,7 +114,7 @@ class AppState extends State<App> {
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
         }
-        activeTabIndex = 2;
+        activeTabIndex = 0;
         BlockingManager().invalidate();
         clearUserData();
         clearCache();

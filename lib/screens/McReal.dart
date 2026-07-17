@@ -215,7 +215,9 @@ class McRealState extends State<McReal> {
                                     spaceBottom: false,
                                     style: TextStyle(
                                         fontSize: 30,
-                                        color: NoRiskClientColors.text,
+                                        color: activeTab == 0
+                                            ? NoRiskClientColors.blue
+                                            : NoRiskClientColors.text,
                                         fontWeight: activeTab == 0
                                             ? FontWeight.bold
                                             : FontWeight.w400)),
@@ -225,8 +227,8 @@ class McRealState extends State<McReal> {
                                   spaceBottom: false,
                                   style: TextStyle(
                                       fontSize: 30,
-                                      color: NoRiskClientColors.text,
-                                      fontWeight: FontWeight.bold)),
+                                      color: NoRiskClientColors.textLight,
+                                      fontWeight: FontWeight.w300)),
                               GestureDetector(
                                 onTap: () {
                                   if (activeTab == 1) return;
@@ -245,7 +247,9 @@ class McRealState extends State<McReal> {
                                     spaceBottom: false,
                                     style: TextStyle(
                                         fontSize: 30,
-                                        color: NoRiskClientColors.text,
+                                        color: activeTab == 1
+                                            ? NoRiskClientColors.blue
+                                            : NoRiskClientColors.text,
                                         fontWeight: activeTab == 1
                                             ? FontWeight.bold
                                             : FontWeight.w400)),
@@ -255,8 +259,8 @@ class McRealState extends State<McReal> {
                                   spaceBottom: false,
                                   style: TextStyle(
                                       fontSize: 30,
-                                      color: NoRiskClientColors.text,
-                                      fontWeight: FontWeight.bold)),
+                                      color: NoRiskClientColors.textLight,
+                                      fontWeight: FontWeight.w300)),
                               GestureDetector(
                                 onTap: () {
                                   if (activeTab == 2) return;
@@ -275,7 +279,9 @@ class McRealState extends State<McReal> {
                                     spaceBottom: false,
                                     style: TextStyle(
                                         fontSize: 30,
-                                        color: NoRiskClientColors.text,
+                                        color: activeTab == 2
+                                            ? NoRiskClientColors.blue
+                                            : NoRiskClientColors.text,
                                         fontWeight: activeTab == 2
                                             ? FontWeight.bold
                                             : FontWeight.w400)),

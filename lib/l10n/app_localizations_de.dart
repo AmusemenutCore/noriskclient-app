@@ -310,4 +310,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settings_theme_light => 'Hell';
+
+  @override
+  String get chats_noChats => 'Noch keine Chats';
+
+  @override
+  String get chats_noChats_subtitle => 'Beginne zu chatten mit deinen Freunden!';
 }

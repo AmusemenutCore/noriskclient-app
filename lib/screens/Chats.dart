@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:noriskclient/config/Colors.dart';
+import 'package:noriskclient/l10n/app_localizations.dart';
 import 'package:noriskclient/main.dart';
 import 'package:noriskclient/screens/NoRiskProfile.dart';
 import 'package:noriskclient/utils/BlockingManager.dart';
@@ -64,14 +65,34 @@ class ChatsState extends State<Chats> {
                       fontSize: 45, fontWeight: FontWeight.bold, color: NoRiskClientColors.text)),
               chats.isEmpty
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 35),
-                      child: NoRiskText('no open chats found',
-                          spaceTop: false,
-                          spaceBottom: false,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: NoRiskClientColors.textLight)),
+                      padding: const EdgeInsets.only(top: 60, left: 32, right: 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          NoRiskText(
+                            AppLocalizations.of(context)!.chats_noChats,
+                            spaceTop: false,
+                            spaceBottom: false,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: NoRiskClientColors.text,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          NoRiskText(
+                            AppLocalizations.of(context)!.chats_noChats_subtitle,
+                            spaceTop: false,
+                            spaceBottom: false,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: NoRiskClientColors.textLight,
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(10),

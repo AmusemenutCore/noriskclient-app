@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>22x22 PNG → SVG</title>
+
+<style>
+body{
+    background:#202124;
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    margin:30px;
+}
+
+input{
+    margin:20px;
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    margin-top:30px;
+}
+
+.box{
+    background:#2b2b2b;
+    padding:20px;
+    border-radius:10px;
+}
+
+canvas,
+#svgPreview svg{
+    width:220px;
+    height:220px;
+    image-rendering:pixelated;
+    border:1px solid #555;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    font-size:16px;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<h1>PNG → Pixel SVG</h1>
+
+<input type="file" id="file" accept=".png">
+
+<div class="container">
+
+<div class="box">
+<h3>PNG</h3>
+<canvas id="canvas" width="22" height="22"></canvas>
+</div>
+
+<div class="box">
+<h3>SVG</h3>
+<div id="svgPreview"></div>
+</div>
+
+</div>
+
+<button id="download" disabled>SVG herunterladen</button>
+
+<script>
+
+const fileInput=document.getElementById("file");
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+ctx.imageSmoothingEnabled=false;
+
+let svgText="";
+
+fileInput.onchange=e=>{
+
+const file=e.target.files[0];
+if(!file)return;
+
+const img=new Image();
+
+img.onload=()=>{
+
+canvas.width=img.width;
+canvas.height=img.height;
+
+ctx.clearRect(0,0,img.width,img.height);
+ctx.drawImage(img,0,0);
+
+const data=ctx.getImageData(0,0,img.width,img.height).data;
+
+let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${img.width}" height="${img.height}" viewBox="0 0 ${img.width} ${img.height}" shape-rendering="crispEdges">`;
+
+for(let y=0;y<img.height;y++){
+
+for(let x=0;x<img.width;x++){
+
+const i=(y*img.width+x)*4;
+
+const r=data[i];
+const g=data[i+1];
+const b=data[i+2];
+const a=data[i+3];
+
+if(a===0) continue;
+
+svg+=`<rect x="${x}" y="${y}" width="1" height="1" fill="rgba(${r},${g},${b},${a/255})"/>`;
+
+}
+
+}
+
+svg+="</svg>";
+
+svgText=svg;
+
+document.getElementById("svgPreview").innerHTML=svg;
+
+document.getElementById("download").disabled=false;
+
+};
+
+img.src=URL.createObjectURL(file);
+
+};
+
+document.getElementById("download").onclick=()=>{
+
+const blob=new Blob([svgText],{type:"image/svg+xml"});
+
+const a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+a.download="icon.svg";
+a.click();
+
+URL.revokeObjectURL(a.href);
+
+};
+
+</script>
+
+</body>
+</html>

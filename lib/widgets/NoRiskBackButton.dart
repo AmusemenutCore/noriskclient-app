@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:noriskclient/config/Colors.dart';
+import 'package:noriskclient/utils/NRIcons.dart';
 import 'package:noriskclient/widgets/NoRiskContainer.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
 
 class NoRiskBackButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -10,15 +11,12 @@ class NoRiskBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
+      onTap: onPressed ?? () => Navigator.of(context).pop(),
       child: NoRiskContainer(
-        width: 30,
-        height: 30,
+        width: 32,
+        height: 32,
         child: Center(
-          child: NoRiskText('←',
-              spaceTop: false,
-              spaceBottom: true,
-              style: const TextStyle(color: Colors.white, fontSize: 27.5, fontWeight: FontWeight.bold)),
+          child: NRIcons.svg('back', color: NoRiskClientColors.text, size: 18),
         ),
       ),
     );

@@ -599,6 +599,18 @@ abstract class AppLocalizations {
   /// **'Empty Chat'**
   String get chat_chat_empty;
 
+  /// No description provided for @chats_noChats.
+  ///
+  /// In en, this message translates to:
+  /// **'No Chats Yet'**
+  String get chats_noChats;
+
+  /// No description provided for @chats_noChats_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start chatting with your friends!'**
+  String get chats_noChats_subtitle;
+
   /// No description provided for @navbar_you.
   ///
   /// In en, this message translates to:

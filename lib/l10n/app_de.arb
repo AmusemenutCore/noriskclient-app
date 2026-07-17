@@ -83,6 +83,8 @@
   "chat_delete_message_delete": "Löschen",
   "chat_message_deleted": "Diese Nachricht wurde gelöscht.",
   "chat_chat_empty": "Leerer Chat",
+  "chats_noChats": "Noch keine Chats",
+  "chats_noChats_subtitle": "Beginne zu chatten mit deinen Freunden!",
   "navbar_you": "Du",
   "gamescom_no_infos": "Aktuell sind keine Infos verfügbar.",
   "qrGuide_title": "So bekommst du deinen QR-Code",
