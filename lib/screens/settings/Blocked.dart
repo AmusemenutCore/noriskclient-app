@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noriskclient/l10n/app_localizations.dart';
-import 'package:noriskclient/config/Colors.dart';
+import 'package:noriskclient/config/colors.dart';
 import 'package:noriskclient/main.dart';
-import 'package:noriskclient/utils/BlockingManager.dart';
-import 'package:noriskclient/utils/NoRiskIcon.dart';
-import 'package:noriskclient/widgets/LoadingIndicator.dart';
-import 'package:noriskclient/widgets/NoRiskBackButton.dart';
-import 'package:noriskclient/widgets/NoRiskContainer.dart';
-import 'package:noriskclient/widgets/NoRiskText.dart';
+import 'package:noriskclient/services/blocking_manager.dart';
+import 'package:noriskclient/utils/nr_icons.dart';
+import 'package:noriskclient/widgets/common/loading_indicator.dart';
+import 'package:noriskclient/widgets/common/nr_back_button.dart';
+import 'package:noriskclient/widgets/common/nr_container.dart';
+import 'package:noriskclient/widgets/common/nr_text.dart';
 
 class Blocked extends StatefulWidget {
   const Blocked({super.key});
@@ -64,7 +64,7 @@ class BlockedState extends State<Blocked> {
                         spaceBottom: false,
                         style: TextStyle(
                             color: NoRiskClientColors.text,
-                            fontSize: 40,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
@@ -88,7 +88,7 @@ class BlockedState extends State<Blocked> {
                               spaceBottom: false,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                  fontSize: 30,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.red)),
                         ))
@@ -133,7 +133,7 @@ class BlockedState extends State<Blocked> {
                                                 style: TextStyle(
                                                     color:
                                                         NoRiskClientColors.text,
-                                                    fontSize: 30,
+                                                    fontSize: 15,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),

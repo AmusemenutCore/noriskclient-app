@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// V2 design tokens. The palette is looked up through getters (not const
-/// fields) so toggling `NoRiskClientColors.mode` and rebuilding the tree
-/// (see `ThemeModeProvider`) re-themes every screen without touching the
-/// ~160 existing `NoRiskClientColors.xyz` call sites.
 enum NoRiskThemeMode { dark, light }
 
 class _Palette {
@@ -64,8 +60,6 @@ class NoRiskClientColors {
   static NoRiskThemeMode _mode = NoRiskThemeMode.dark;
   static NoRiskThemeMode get mode => _mode;
 
-  /// Only `ThemeModeProvider` should call this; it owns persistence and
-  /// triggers the app-wide rebuild that makes the new palette visible.
   static void setMode(NoRiskThemeMode mode) {
     _mode = mode;
   }
@@ -74,19 +68,12 @@ class NoRiskClientColors {
 
   static Color get background => _p.background;
   static Color get darkerBackground => _p.darkerBackground;
-  // New in V2: a slightly-lifted surface tone for cards, replacing plain
-  // white-overlay containers with something that reads as "elevated" in
-  // both themes instead of just "brighter".
   static Color get surface => _p.surface;
   static Color get light => _p.light;
   static Color get blue => _p.blue;
-  // New in V2: secondary accent tone for hover/pressed states and subtle
-  // highlights, so blue isn't the only accent weight available.
   static Color get blueSoft => _p.blueSoft;
   static Color get success => _p.success;
   static Color get danger => _p.danger;
-
-  // text
   static Color get text => _p.text;
   static Color get textLight => _p.textLight;
 }

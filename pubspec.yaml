@@ -45,6 +45,6 @@ flutter:
 
 flutter_native_splash:
   color: "#252525"
-  image: lib/assets/app/flash.png
+  image: lib/assets/app/norisk_logo.png
 
   web: false

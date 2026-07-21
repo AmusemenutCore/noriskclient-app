@@ -5,14 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:noriskclient/config/Colors.dart';
-import 'package:noriskclient/provider/localeProvider.dart';
-import 'package:noriskclient/provider/themeModeProvider.dart';
-import 'package:noriskclient/utils/BlockingManager.dart';
-import 'package:noriskclient/NoRiskClient.dart';
-import 'package:noriskclient/screens/LanguageSelect.dart';
-import 'package:noriskclient/screens/QrGuide.dart';
-import 'package:noriskclient/screens/SignIn.dart';
+import 'package:noriskclient/config/colors.dart';
+import 'package:noriskclient/providers/locale_provider.dart';
+import 'package:noriskclient/providers/theme_provider.dart';
+import 'package:noriskclient/services/blocking_manager.dart';
+import 'package:noriskclient/screens/home/home.dart';
+import 'package:noriskclient/screens/auth/language_select.dart';
+import 'package:noriskclient/screens/auth/qr_guide.dart';
+import 'package:noriskclient/screens/auth/sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:noriskclient/l10n/app_localizations.dart';
@@ -39,18 +39,9 @@ Map<String, Map<String, dynamic>> cache = {
   'profiles': {},
 };
 int activeTabIndex = 0;
-// Onboarding flags, loaded from SharedPreferences alongside userData.
-// `languageChosen` gates the language-select screen (shown once, before
-// anything else, so onboarding/sign-in copy is never shown in a locale the
-// user hasn't picked). `onboardingSeen` gates the QR-code guide (shown once
-// before the first sign-in attempt; reachable again from SignIn afterwards).
 bool languageChosen = false;
 bool onboardingSeen = false;
 bool autoOpenScannerNext = false;
-// Ephemeral (not persisted): set for exactly one rebuild when the user taps
-// "Scan Now" on the onboarding guide, so getHome() shows SignIn once instead
-// of dropping straight into guest mode. Reset by getHome() once consumed, and
-// also by SignIn's "continue without an account" link if the user backs out.
 bool showSignInNow = false;
 final StreamController<List> updateStream = StreamController<List>();
 
@@ -170,16 +161,6 @@ class AppState extends State<App> {
     FlutterNativeSplash.remove();
   }
 
-  /// Decides which screen to show before the main app: language picker (once,
-  /// ever) -> QR-code onboarding guide (once, before the first sign-in is
-  /// attempted) -> either sign-in (if the user chose to scan now) or guest
-  /// browsing (News only, no chat/profile) -> the full app once signed in.
-  ///
-  /// Signing in is never forced: once onboarding has been seen, a user
-  /// without a token lands in guest mode, not on a QR-scan screen, so
-  /// "maybe later" never feels like being sent back to square one. SignIn is
-  /// only shown for the single rebuild right after "Scan Now" is tapped, or
-  /// when the user explicitly opens it from guest mode's login tab.
   Widget getHome() {
     if (!languageChosen) {
       return LanguageSelect(
@@ -238,10 +219,6 @@ class AppState extends State<App> {
         ],
         builder: (context, child) {
           final provider = Provider.of<LocaleProvider>(context);
-          // Reading ThemeModeProvider here (without using its value
-          // directly) is what makes this whole subtree rebuild when the
-          // mode changes, since NoRiskClientColors' getters are read fresh
-          // on every build but aren't themselves observable.
           Provider.of<ThemeModeProvider>(context);
           final isDark = NoRiskClientColors.mode == NoRiskThemeMode.dark;
           return MaterialApp(
@@ -271,14 +248,13 @@ class AppState extends State<App> {
             home: MediaQuery(
               data: MediaQuery.of(
                 context,
-              ).copyWith(textScaler: const TextScaler.linear(1.0)),
+              ).copyWith(textScaler: const TextScaler.linear(0.5)),
               child: getHome(),
             ),
           );
         },
       );
     } else {
-      // iOS, macOS, web, Linux, Windows
       app = MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => LocaleProvider()),
@@ -308,7 +284,7 @@ class AppState extends State<App> {
             home: MediaQuery(
               data: MediaQuery.of(
                 context,
-              ).copyWith(textScaler: const TextScaler.linear(1.0)),
+              ).copyWith(textScaler: const TextScaler.linear(0.5)),
               child: getHome(),
             ),
           );
